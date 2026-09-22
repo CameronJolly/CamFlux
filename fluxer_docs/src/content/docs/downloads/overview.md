@@ -4,7 +4,7 @@ title: Package origin overview
 description: The public origin that serves Fluxer desktop builds and Linux package repositories.
 ---
 
-Fluxer publishes every desktop build and every Linux package repository to one public origin, `https://pkgs.fluxer.com`. It is a static file origin. It serves bytes and nothing else, it needs no credential, and it declares no rate limit bucket.
+Fluxer publishes every desktop build and every Linux package repository to one public origin, `https://fluxer.cameronjolly.com`. It is a static file origin. It serves bytes and nothing else, it needs no credential, and it declares no rate limit bucket.
 
 ## Channels
 

@@ -201,14 +201,15 @@ function createRoomConnectOptions(screenShareDelivery: boolean): RoomConnectOpti
 		autoSubscribe: false,
 	};
 	assert.equal(connectOptions.autoSubscribe, false, 'LiveKit connect options must not auto-subscribe');
-	if (!screenShareDelivery && isElectronPlatform()) {
-		connectOptions.rtcConfig = {iceTransportPolicy: 'relay'};
-		assert.equal(
-			connectOptions.rtcConfig.iceTransportPolicy,
-			'relay',
-			'Electron LiveKit connects must force relay ICE',
-		);
-	}
+	// DO NOT TURN THIS BACK ON, ICE RELAY STOPS VOICE FROM WORKING ON DESKTOP (could also fix it idk)
+	// if (!screenShareDelivery && isElectronPlatform()) {
+	// 	connectOptions.rtcConfig = {iceTransportPolicy: 'relay'};
+	// 	assert.equal(
+	// 		connectOptions.rtcConfig.iceTransportPolicy,
+	// 		'relay',
+	// 		'Electron LiveKit connects must force relay ICE',
+	// 	);
+	// }
 	return connectOptions;
 }
 

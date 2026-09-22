@@ -39,7 +39,7 @@ import type Stripe from 'stripe';
 
 const PRODUCT_NAME = 'Fluxer';
 const PREMIUM_TIER_NAME = 'Plutonium';
-const TERMS_URL = 'https://fluxer.app/terms';
+const TERMS_URL = 'https://fluxer.cameronjolly.com/terms';
 export const EU_WITHDRAWAL_WAIVER_TEXT_VERSION = '2026-04-23';
 
 type CheckoutSessionCreateParams = Stripe.Checkout.SessionCreateParams;

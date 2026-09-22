@@ -202,7 +202,7 @@ function buildTemplate(): Array<MenuItemConstructorOptions> {
 			{
 				label: t('desktop.appMenu.website'),
 				click: async () => {
-					await openExternalDeduped('https://fluxer.app');
+					await openExternalDeduped('https://fluxer.cameronjolly.com');
 				},
 			},
 			{

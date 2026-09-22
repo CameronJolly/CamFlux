@@ -5,7 +5,7 @@ description: Upgrading and rolling back an instance with the installer, what the
 ---
 
 :::tip[Plutonium and donations fund Fluxer]
-We are grateful to everyone supporting the project through [Fluxer Plutonium](https://fluxer.app/plutonium) or [donations](https://fluxer.app/donate). All of our code is free and open source on [GitHub](https://github.com/fluxerapp/fluxer). The Operator Pass is coming, and adds a direct line to the team for help and feedback.
+We are grateful to everyone supporting the project through [Fluxer Plutonium](https://cameronjolly.com/plutonium) or [donations](https://cameronjolly.com/donate). All of our code is free and open source on [GitHub](https://github.com/fluxerapp/fluxer). The Operator Pass is coming, and adds a direct line to the team for help and feedback.
 :::
 
 An upgrade moves an instance to a newer release. `install.sh --update` does all of it: back up, download the new stack files, pull the new images, recreate the containers that changed. The stack files are the compose files, the `Caddyfile` and `.env.example`. Allow about twenty minutes, most of it the backup and the pull.

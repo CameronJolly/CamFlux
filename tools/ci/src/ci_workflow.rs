@@ -333,7 +333,7 @@ mod tests {
         const REQUIRED: [&str; 9] = [
             "LABEL org.opencontainers.image.licenses=\"AGPL-3.0-or-later\"",
             "LABEL org.opencontainers.image.vendor=\"Fluxer\"",
-            "LABEL org.opencontainers.image.url=\"https://fluxer.app\"",
+            "LABEL org.opencontainers.image.url=\"https://fluxer.cameronjolly.com\"",
             "LABEL org.opencontainers.image.documentation=\"https://docs.fluxer.app\"",
             "LABEL org.opencontainers.image.source=\"https://github.com/fluxerapp/fluxer\"",
             "LABEL org.opencontainers.image.version=\"${BUILD_VERSION}\"",

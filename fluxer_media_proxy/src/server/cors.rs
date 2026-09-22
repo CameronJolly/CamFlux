@@ -90,8 +90,8 @@ mod tests {
     use std::sync::{Arc, Mutex};
     use tracing_subscriber::fmt::MakeWriter;
 
-    const WEB: &str = "https://web.fluxer.app";
-    const CANARY: &str = "https://web.canary.fluxer.app";
+    const WEB: &str = "https://fluxer.cameronjolly.com";
+    const CANARY: &str = "https://fluxer.cameronjolly.com";
 
     #[derive(Clone, Default)]
     struct CapturedLog(Arc<Mutex<Vec<u8>>>);
@@ -171,11 +171,11 @@ mod tests {
         for refused in [
             "null",
             "https://evil.example",
-            "https://web.fluxer.app/",
+            "https://fluxer.cameronjolly.com/",
             "HTTPS://WEB.FLUXER.APP",
-            "https://web.fluxer.app:443",
-            "http://web.fluxer.app",
-            "https://web.fluxer.app.evil.example",
+            "https://fluxer.cameronjolly.com:443",
+            "http://fluxer.cameronjolly.com",
+            "https://fluxer.cameronjolly.com.evil.example",
             "",
         ] {
             assert_eq!(

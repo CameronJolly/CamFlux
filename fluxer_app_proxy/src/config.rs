@@ -747,11 +747,11 @@ mod tests {
             resolve_discovery_from_pairs(&[
                 (
                     "DISCOVERY_UPSTREAM_URL",
-                    "https://web.canary.fluxer.app/api/.well-known/fluxer",
+                    "https://fluxer.cameronjolly.com/api/.well-known/fluxer",
                 ),
-                ("FLUXER_API_ENDPOINT", "https://api.canary.fluxer.app"),
+                ("FLUXER_API_ENDPOINT", "https://api.fluxer.cameronjolly.com"),
             ]),
-            "https://web.canary.fluxer.app/api/.well-known/fluxer"
+            "https://fluxer.cameronjolly.com/api/.well-known/fluxer"
         );
     }
 
@@ -760,9 +760,9 @@ mod tests {
         assert_eq!(
             resolve_discovery_from_pairs(&[(
                 "FLUXER_API_ENDPOINT",
-                "https://api.canary.fluxer.app/"
+                "https://api.fluxer.cameronjolly.com/"
             )]),
-            "https://api.canary.fluxer.app/.well-known/fluxer"
+            "https://api.fluxer.cameronjolly.com/.well-known/fluxer"
         );
     }
 
@@ -773,10 +773,10 @@ mod tests {
                 ("PUBLIC_BOOTSTRAP_API_ENDPOINT", "/api"),
                 (
                     "PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT",
-                    "https://api.canary.fluxer.app",
+                    "https://api.fluxer.cameronjolly.com",
                 ),
             ]),
-            "https://api.canary.fluxer.app/.well-known/fluxer"
+            "https://api.fluxer.cameronjolly.com/.well-known/fluxer"
         );
     }
 
