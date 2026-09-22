@@ -16,6 +16,11 @@
     <img src="https://img.shields.io/badge/License-AGPLv3-purple" alt="AGPLv3 License" /></a>
 </p>
 
+<p align="center">
+  <a href="https://flathub.org/apps/app.fluxer.Fluxer">
+    <img src="https://dl.flathub.org/assets/badges/flathub-badge-en.svg" alt="Get it on Flathub" height="60" /></a>
+</p>
+
 # Fluxer
 
 Fluxer is a free and open source instant messaging and VoIP chat app built for friends, groups, and communities.
@@ -28,7 +33,7 @@ Fluxer is a free and open source instant messaging and VoIP chat app built for f
 
 | Windows | macOS | Linux | Android | iOS |
 | --- | --- | --- | --- | --- |
-| [Installer (x64)][win-setup-x64] | [Disk image][mac-dmg] | [Flatpak][flatpak-ref] | [APK][android-apk] | [TestFlight][ios-testflight] |
+| [Installer (x64)][win-setup-x64] | [Disk image][mac-dmg] | [Flathub][flathub] | [APK][android-apk] | [TestFlight][ios-testflight] |
 | [Installer (ARM64)][win-setup-arm64] | | [deb (x64)][linux-deb-x64] | [Obtainium][obtainium] | |
 | [Portable (x64)][win-portable-x64] | | [deb (ARM64)][linux-deb-arm64] | | |
 | [Portable (ARM64)][win-portable-arm64] | | [rpm (x64)][linux-rpm-x64] | | |
@@ -38,17 +43,23 @@ Fluxer is a free and open source instant messaging and VoIP chat app built for f
 | | | [tar.gz (x64)][linux-targz-x64] | | |
 | | | [tar.gz (ARM64)][linux-targz-arm64] | | |
 
-The macOS disk image is universal and runs on both Apple silicon and Intel. Windows and Linux need the build that matches your processor.
+The macOS disk image runs on both Apple silicon and Intel. Windows and Linux need the build matching your processor.
 
-On Linux, prefer a package repository over a file. Fluxer then updates with the rest of your system.
+On Linux, prefer a repository over a single file so Fluxer updates with the rest of your system.
 
 ## Linux package repositories
 
-All four repositories serve stable and canary. The package is `fluxer` for stable and `fluxer-canary` for canary.
+Every repository serves both channels. The package is `fluxer` for stable, `fluxer-canary` for canary.
 
 ### Flatpak
 
-Opening [this reference file][flatpak-ref] hands the install to your desktop software manager. Some desktops also accept `flatpak+https://fluxer.cameronjolly.com/flatpak/fluxer.flatpakref` pasted into the address bar.
+Stable is on [Flathub][flathub], the easiest route on most desktops:
+
+```sh
+flatpak install flathub app.fluxer.Fluxer
+```
+
+Flathub has stable only. For canary, or to use Fluxer's own repository, open [this reference file][flatpak-ref] and your software manager takes over. Some desktops also accept `flatpak+https://pkgs.fluxer.com/flatpak/fluxer.flatpakref` in the address bar.
 
 From a terminal:
 
@@ -72,11 +83,11 @@ sudo curl -fsSL -o /etc/yum.repos.d/fluxer.repo https://fluxer.cameronjolly.com/
 sudo dnf install fluxer
 ```
 
-RHEL, Rocky, Alma and CentOS Stream need `sudo dnf install epel-release` first, because the base repositories do not ship `libXScrnSaver`. Fedora does not need this.
+RHEL, Rocky, Alma and CentOS Stream need `sudo dnf install epel-release` first, because their base repositories lack `libXScrnSaver`. Fedora does not.
 
 ### Arch Linux
 
-The repository is signed, so pacman needs the key in its own keyring once:
+The repository is signed, so pacman needs the key once:
 
 ```sh
 sudo pacman-key --init
@@ -85,7 +96,7 @@ sudo pacman-key --add /tmp/fluxer-archive-keyring.asc
 sudo pacman-key --lsign-key 09D01339EE128925F75E675C855C5BDE34D205D2
 ```
 
-`--lsign-key` is the step that makes pacman trust the key. Then add the repository:
+`--lsign-key` is what makes pacman trust it. Then add the repository:
 
 ```sh
 sudo tee -a /etc/pacman.conf >/dev/null <<'REPO'
@@ -97,9 +108,9 @@ REPO
 sudo pacman -Syu fluxer
 ```
 
-Write `$repo` and `$arch` literally. Both are pacman variables, not shell ones, which is why the heredoc above is quoted.
+Write `$repo` and `$arch` literally. Both are pacman variables, not shell ones, hence the quoted heredoc.
 
-Full setup notes, including the canary channel, live in the [Linux repositories documentation][docs-linux].
+Full setup notes, including canary, are in the [Linux repositories documentation][docs-linux].
 
 ## Other ways to run it
 
@@ -117,9 +128,9 @@ Full setup notes, including the canary channel, live in the [Linux repositories 
 The source is licensed under the [AGPL-3.0-or-later](./LICENSE) license.
 
 Fluxer branding, icons, default avatars, badge artwork, screenshots and marketing
-imagery are copyright Fluxer and all rights reserved, as set out in
-[fluxer_static/LICENSE](./fluxer_static/LICENSE). Third-party material keeps its
-own terms, listed in
+imagery are copyright Fluxer, all rights reserved, as set out in
+[fluxer_static/LICENSE](./fluxer_static/LICENSE). Third-party material keeps its own
+terms, listed in
 [fluxer_static/THIRD_PARTY_LICENSES.md](./fluxer_static/THIRD_PARTY_LICENSES.md).
 
 Public availability of this repository does not grant trademark, brand, or
