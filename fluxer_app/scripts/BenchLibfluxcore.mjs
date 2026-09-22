@@ -29,7 +29,7 @@ const workerCount = Math.max(1, Math.min(4, os.availableParallelism?.() ?? os.cp
 const profile = process.argv.find((arg) => arg.startsWith('--profile='))?.slice('--profile='.length) ?? 'standard';
 const downloadRealMediaOnly = process.argv.includes('--download-realmedia');
 const offlineRealMedia = process.argv.includes('--offline') || process.env.FLUXCORE_BENCH_OFFLINE === '1';
-const userAgent = 'Fluxer libfluxcore benchmark (https://fluxer.app)';
+const userAgent = 'Fluxer libfluxcore benchmark (https://fluxer.cameronjolly.com)';
 const realMediaAssets = [
 	{
 		id: 'jpeg-fronalpstock',

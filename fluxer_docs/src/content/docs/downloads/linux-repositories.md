@@ -13,9 +13,9 @@ One repository serves Debian and Ubuntu. It uses the standard `dists` and `pool`
 ```
 sudo install -d -m 0755 /etc/apt/keyrings
 sudo curl -fsSL -o /etc/apt/keyrings/fluxer-archive-keyring.gpg \
-  https://pkgs.fluxer.com/keys/fluxer-archive-keyring.gpg
+  https://fluxer.cameronjolly.com/keys/fluxer-archive-keyring.gpg
 sudo curl -fsSL -o /etc/apt/sources.list.d/fluxer.sources \
-  https://pkgs.fluxer.com/deb/fluxer.sources
+  https://fluxer.cameronjolly.com/deb/fluxer.sources
 sudo apt update && sudo apt install fluxer
 ```
 
@@ -27,8 +27,8 @@ One repository serves Fedora and the RHEL family, split by channel and architect
 
 ```
 sudo curl -fsSL -o /etc/yum.repos.d/fluxer.repo \
-  https://pkgs.fluxer.com/rpm/fluxer.repo
-sudo rpm --import https://pkgs.fluxer.com/keys/fluxer-archive-keyring.asc
+  https://fluxer.cameronjolly.com/rpm/fluxer.repo
+sudo rpm --import https://fluxer.cameronjolly.com/keys/fluxer-archive-keyring.asc
 sudo dnf install fluxer
 ```
 
@@ -49,7 +49,7 @@ pacman has no per-repository key setting, so the signing key goes into the pacma
 ```
 sudo pacman-key --init
 curl -fsSL -o /tmp/fluxer-archive-keyring.asc \
-  https://pkgs.fluxer.com/keys/fluxer-archive-keyring.asc
+  https://fluxer.cameronjolly.com/keys/fluxer-archive-keyring.asc
 sudo pacman-key --add /tmp/fluxer-archive-keyring.asc
 sudo pacman-key --lsign-key 09D01339EE128925F75E675C855C5BDE34D205D2
 ```
@@ -63,7 +63,7 @@ sudo tee -a /etc/pacman.conf >/dev/null <<'REPO'
 
 [fluxer]
 SigLevel = Required TrustedOnly
-Server = https://pkgs.fluxer.com/arch/$repo/os/$arch
+Server = https://fluxer.cameronjolly.com/arch/$repo/os/$arch
 REPO
 sudo pacman -Syu --noconfirm fluxer
 ```
@@ -81,7 +81,7 @@ A pacman sync database records one version per package name, so only the current
 One remote named `fluxer` serves both application ids, `app.fluxer.Fluxer` and `app.fluxer.FluxerCanary`.
 
 ```
-flatpak install https://pkgs.fluxer.com/flatpak/fluxer.flatpakref
+flatpak install https://fluxer.cameronjolly.com/flatpak/fluxer.flatpakref
 ```
 
 Use `fluxer-canary.flatpakref` for the canary channel. The reference file names the remote and resolves the runtime the application builds against, so this works on a machine with no remotes configured.

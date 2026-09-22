@@ -555,7 +555,7 @@ mod tests {
         };
 
         let result = parse_and_render_plaintext(
-            "**hi** <@1> <@&2> <#3> [site](https://fluxer.app)",
+            "**hi** <@1> <@&2> <#3> [site](https://fluxer.cameronjolly.com)",
             ParserFlags::ALL,
             "",
             &options,
@@ -564,7 +564,7 @@ mod tests {
 
         assert_eq!(
             result,
-            "**hi** @Alice @Ops #alerts [site](https://fluxer.app)"
+            "**hi** @Alice @Ops #alerts [site](https://fluxer.cameronjolly.com)"
         );
 
         let empty_blockquote_result = parse_and_render_plaintext(

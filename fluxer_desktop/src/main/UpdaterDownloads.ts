@@ -17,10 +17,11 @@ function getDesktopDownloadArch(arch: NodeJS.Architecture): DesktopDownloadArch 
 }
 
 const DESKTOP_DOWNLOAD_ARCH = getDesktopDownloadArch(process.arch);
-const PKGS_BASE_URL = 'https://pkgs.fluxer.com';
+const PKGS_BASE_URL = 'https://fluxer.cameronjolly.com';
+// FIX LATER: Need to host an endpoint that lets them update their client from this fork which will run an automated build
 export const UPDATE_BASE_URL = `${PKGS_BASE_URL}/desktop/${BUILD_CHANNEL}/${process.platform}/${DESKTOP_DOWNLOAD_ARCH}`;
 export const DOWNLOAD_PAGE_URL =
-	BUILD_CHANNEL === 'canary' ? 'https://canary.fluxer.app/download' : 'https://fluxer.app/download';
+	BUILD_CHANNEL === 'canary' ? 'https://fluxer.cameronjolly.com/download' : 'https://fluxer.cameronjolly.com/download';
 
 export const MANUAL_DESKTOP_FORMATS = ['setup', 'dmg', 'zip', 'appimage', 'deb', 'rpm', 'tar_gz'] as const;
 

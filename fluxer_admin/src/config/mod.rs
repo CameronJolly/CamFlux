@@ -45,7 +45,7 @@ impl AdminConfig {
         let base_path = normalize_base_path(&read_env("FLUXER_ADMIN_BASE_PATH", ""));
         let admin_endpoint = normalize_public_endpoint_from_env(&trim_trailing_slash(&read_env(
             "FLUXER_ADMIN_ENDPOINT",
-            "https://admin.fluxer.app",
+            "https://fluxer.cameronjolly.com",
         )));
         let oauth_redirect_uri = normalize_public_endpoint_from_env(&read_env_preferred(
             &["FLUXER_ADMIN_OAUTH_REDIRECT_URI"],
@@ -67,11 +67,11 @@ impl AdminConfig {
             base_path,
             api_endpoint: trim_trailing_slash(&read_env(
                 "FLUXER_API_ENDPOINT",
-                "https://api.fluxer.app",
+                "https://fluxer.cameronjolly.com",
             )),
             media_endpoint: normalize_public_endpoint_from_env(&trim_trailing_slash(&read_env(
                 "FLUXER_MEDIA_ENDPOINT",
-                "https://media.fluxer.app",
+                "https://fluxer.cameronjolly.com",
             ))),
             static_cdn_endpoint: normalize_public_endpoint_from_env(&trim_trailing_slash(
                 &read_env("FLUXER_STATIC_CDN_ENDPOINT", ""),
@@ -80,7 +80,7 @@ impl AdminConfig {
             admin_endpoint,
             web_app_endpoint: normalize_public_endpoint_from_env(&trim_trailing_slash(&read_env(
                 "FLUXER_APP_ENDPOINT",
-                "https://app.fluxer.app",
+                "https://fluxer.cameronjolly.com",
             ))),
             kv_url: read_env("FLUXER_KV_URL", ""),
             oauth_client_id: read_env(
@@ -346,7 +346,7 @@ mod tests {
         assert_eq!(config.oauth_client_id, DEFAULT_ADMIN_OAUTH_CLIENT_ID);
         assert_eq!(
             config.oauth_redirect_uri,
-            "https://admin.fluxer.app/oauth2_callback"
+            "https://fluxer.cameronjolly.com/oauth2_callback"
         );
     }
 

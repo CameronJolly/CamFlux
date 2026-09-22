@@ -31,7 +31,7 @@ const FRAME_SOURCES: &[&str] = &[
 ];
 
 const IMAGE_SOURCES: &[&str] = &[
-    "https://*.fluxer.app",
+    "https://*.fluxer.cameronjolly.com",
     "https://i.ytimg.com",
     "https://*.youtube.com",
     "https://*.fluxer.media",
@@ -39,21 +39,21 @@ const IMAGE_SOURCES: &[&str] = &[
 ];
 
 const MEDIA_SOURCES: &[&str] = &[
-    "https://*.fluxer.app",
+    "https://*.fluxer.cameronjolly.com",
     "https://*.youtube.com",
     "https://*.fluxer.media",
     "https://fluxer.media",
 ];
 
 const SCRIPT_SOURCES: &[&str] = &[
-    "https://*.fluxer.app",
+    "https://*.fluxer.cameronjolly.com",
     "https://hcaptcha.com",
     "https://*.hcaptcha.com",
     "https://challenges.cloudflare.com",
 ];
 
 const STYLE_SOURCES: &[&str] = &[
-    "https://*.fluxer.app",
+    "https://*.fluxer.cameronjolly.com",
     "https://hcaptcha.com",
     "https://*.hcaptcha.com",
     "https://fonts.googleapis.com",
@@ -61,14 +61,14 @@ const STYLE_SOURCES: &[&str] = &[
 ];
 
 const FONT_SOURCES: &[&str] = &[
-    "https://*.fluxer.app",
+    "https://*.fluxer.cameronjolly.com",
     "https://fonts.gstatic.com",
     "https://api.fonts.coollabs.io",
 ];
 
 const CONNECT_SOURCES: &[&str] = &[
-    "https://*.fluxer.app",
-    "wss://*.fluxer.app",
+    "https://*.fluxer.cameronjolly.com",
+    "wss://*.fluxer.cameronjolly.com",
     "https://*.fluxer.media",
     "wss://*.fluxer.media",
     "https://fluxer-uploads.ewr1.vultrobjects.com",
@@ -79,9 +79,9 @@ const CONNECT_SOURCES: &[&str] = &[
     "https://fluxer.media",
 ];
 
-const WORKER_SOURCES: &[&str] = &["https://*.fluxer.app", "blob:"];
+const WORKER_SOURCES: &[&str] = &["https://*.fluxer.cameronjolly.com", "blob:"];
 
-const MANIFEST_SOURCES: &[&str] = &["https://*.fluxer.app"];
+const MANIFEST_SOURCES: &[&str] = &["https://*.fluxer.cameronjolly.com"];
 
 #[derive(Debug)]
 pub enum CspCompileError {

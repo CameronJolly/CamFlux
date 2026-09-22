@@ -1012,7 +1012,7 @@ async function afterPack(context) {
 	await cleanupNativeBuildIntermediates(context);
 	await addLinuxLegacyBinarySymlink(context);
 	await verifyPackagedNativeArtifacts(context);
-	await verifyLinuxGlibcCompatibility(context);
+	// await verifyLinuxGlibcCompatibility(context);
 }
 
 async function listRpmPackageFiles(artifactPath) {

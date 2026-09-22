@@ -109,22 +109,22 @@ describe('Guild audit log channel writers', () => {
 		const {owner, guild} = await setupTestGuildWithMembers(harness, 0);
 		const link = await createBuilder<ChannelResponse>(harness, owner.token)
 			.post(`/guilds/${guild.id}/channels`)
-			.body({name: 'docs', type: ChannelTypes.GUILD_LINK, url: 'https://fluxer.app/docs'})
+			.body({name: 'docs', type: ChannelTypes.GUILD_LINK, url: 'https://fluxer.cameronjolly.com/docs'})
 			.expect(HTTP_STATUS.OK)
 			.execute();
 		const createLog = await fetchAuditLog(harness, owner.token, guild.id, AuditLogActionType.CHANNEL_CREATE);
 		const createEntry = requireEntry(createLog.audit_log_entries, (entry) => entry.target_id === link.id);
-		expect(createEntry.changes?.find((change) => change.key === 'url')?.new_value).toBe('https://fluxer.app/docs');
+		expect(createEntry.changes?.find((change) => change.key === 'url')?.new_value).toBe('https://fluxer.cameronjolly.com/docs');
 		await createBuilder<ChannelResponse>(harness, owner.token)
 			.patch(`/channels/${link.id}`)
-			.body({url: 'https://fluxer.app/help'})
+			.body({url: 'https://fluxer.cameronjolly.com/help'})
 			.expect(HTTP_STATUS.OK)
 			.execute();
 		const updateLog = await fetchAuditLog(harness, owner.token, guild.id, AuditLogActionType.CHANNEL_UPDATE);
 		const updateEntry = requireEntry(updateLog.audit_log_entries, (entry) => entry.target_id === link.id);
 		expect(updateEntry.options?.type).toBe(ChannelTypes.GUILD_LINK);
 		expect(updateEntry.changes).toEqual([
-			{key: 'url', old_value: 'https://fluxer.app/docs', new_value: 'https://fluxer.app/help'},
+			{key: 'url', old_value: 'https://fluxer.cameronjolly.com/docs', new_value: 'https://fluxer.cameronjolly.com/help'},
 		]);
 	});
 	test('records a channel rename with the header reason', async () => {

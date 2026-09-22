@@ -41,7 +41,7 @@ Start with `GET /.well-known/fluxer` on the instance origin. It requires no auth
 GET https://example.com/.well-known/fluxer
 ```
 
-For the hosted instance, use `https://fluxer.app/.well-known/fluxer`.
+For the hosted instance, use `https://fluxer.cameronjolly.com/.well-known/fluxer`.
 
 Read base URLs from the response's [endpoints](/http-api/instance/#instance-endpoints-object). Do not derive them from the origin or hard-code Fluxer domains.
 

@@ -7,7 +7,7 @@ use std::fs::{self, File, OpenOptions};
 use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 
-const PKGS_BASE_URL: &str = "https://pkgs.fluxer.com";
+const PKGS_BASE_URL: &str = "https://fluxer.cameronjolly.com";
 const PKGS_DESKTOP_PREFIX: &str = "desktop";
 const APPIMAGE_PLATFORM: &str = "linux";
 const APPIMAGE_FORMAT: &str = "appimage";
@@ -421,11 +421,11 @@ mod tests {
     fn update_information_points_at_the_mutable_latest_alias_on_the_packages_box() {
         assert_eq!(
             update_information("canary", "x64"),
-            "zsync|https://pkgs.fluxer.com/desktop/canary/linux/x64/latest/appimage.zsync"
+            "zsync|https://fluxer.cameronjolly.com/desktop/canary/linux/x64/latest/appimage.zsync"
         );
         assert_eq!(
             update_information("stable", "arm64"),
-            "zsync|https://pkgs.fluxer.com/desktop/stable/linux/arm64/latest/appimage.zsync"
+            "zsync|https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/latest/appimage.zsync"
         );
     }
 
@@ -437,7 +437,7 @@ mod tests {
                 "arm64",
                 "Fluxer-2026.904.135113-linux-arm64.AppImage"
             ),
-            "https://pkgs.fluxer.com/desktop/stable/linux/arm64/Fluxer-2026.904.135113-linux-arm64.AppImage"
+            "https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/Fluxer-2026.904.135113-linux-arm64.AppImage"
         );
     }
 
@@ -476,7 +476,7 @@ mod tests {
             vec![
                 std::ffi::OsString::from("-u"),
                 std::ffi::OsString::from(
-                    "https://pkgs.fluxer.com/desktop/stable/linux/x64/Fluxer-2026.904.135113-linux-x86_64.AppImage"
+                    "https://fluxer.cameronjolly.com/desktop/stable/linux/x64/Fluxer-2026.904.135113-linux-x86_64.AppImage"
                 ),
                 std::ffi::OsString::from("-f"),
                 std::ffi::OsString::from("Fluxer-2026.904.135113-linux-x86_64.AppImage"),

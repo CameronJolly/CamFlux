@@ -155,7 +155,7 @@ mod tests {
         ("FLUXER_MEDIA_PROXY_CORS_MODE", "enforce"),
         (
             "FLUXER_MEDIA_PROXY_CORS_ALLOWED_ORIGINS",
-            "https://web.fluxer.app",
+            "https://fluxer.cameronjolly.com",
         ),
     ];
 
