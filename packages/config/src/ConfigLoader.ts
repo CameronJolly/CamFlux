@@ -17,8 +17,6 @@ let cachedConfig: MasterConfig | null = null;
 
 const DEFAULT_PASSKEY_ORIGINS = [
 	'https://fluxer.cameronjolly.com',
-	'https://fluxer.cameronjolly.com',
-	'https://fluxer.cameronjolly.com',
 	'android:apk-key-hash:keSY4bimyLqZQV7bKXgpa2xYuqXi0qZJzsYtp6gpx7w',
 	'android:apk-key-hash:zRmCKDKo3uCX2GDZISjJx8Rzo3J-Y3Gbp7s7mAaUH28',
 ];
