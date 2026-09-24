@@ -10524,7 +10524,7 @@
 					},
 					"gateway_rollout": {"$ref": "#/components/schemas/GatewayRolloutConfigResponse"},
 					"voice_noise_suppression": {"$ref": "#/components/schemas/VoiceNoiseSuppressionConfigResponse"},
-					"screen_share_delivery": {"$ref": "#/components/schemas/ScreenShareDeliveryConfigResponse"},
+					"push_service_delivery": {"$ref": "#/components/schemas/PushServiceDeliveryConfigResponse"},
 					"experiment_delivery": {"$ref": "#/components/schemas/ExperimentDeliveryConfigResponse"},
 					"registration": {
 						"type": "object",
@@ -10952,7 +10952,7 @@
 					"sso",
 					"gateway_rollout",
 					"voice_noise_suppression",
-					"screen_share_delivery",
+					"push_service_delivery",
 					"experiment_delivery",
 					"registration",
 					"self_hosted",
@@ -11087,9 +11087,9 @@
 						"nullable": true,
 						"allOf": [{"$ref": "#/components/schemas/VoiceNoiseSuppressionConfigUpdateRequest"}]
 					},
-					"screen_share_delivery": {
+					"push_service_delivery": {
 						"nullable": true,
-						"allOf": [{"$ref": "#/components/schemas/ScreenShareDeliveryConfigUpdateRequest"}]
+						"allOf": [{"$ref": "#/components/schemas/PushServiceDeliveryConfigUpdateRequest"}]
 					},
 					"experiment_delivery": {
 						"nullable": true,
@@ -15184,12 +15184,12 @@
 					"poll_jitter_percent": {"type": "integer", "minimum": 0, "maximum": 50}
 				}
 			},
-			"ScreenShareDeliveryConfigUpdateRequest": {
+			"PushServiceDeliveryConfigUpdateRequest": {
 				"type": "object",
 				"properties": {
 					"enabled": {"type": "boolean"},
 					"rollout_basis_points": {"type": "integer", "minimum": 0, "maximum": 10000},
-					"rollout_salt": {"type": "string", "minLength": 1, "maxLength": 64},
+					"rollout_salt": {"type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[\\x20-\\x7e]+$"},
 					"included_user_ids": {
 						"maxItems": 1000,
 						"type": "array",
@@ -15267,13 +15267,19 @@
 				"required": ["poll_interval_seconds", "poll_jitter_percent"],
 				"additionalProperties": false
 			},
-			"ScreenShareDeliveryConfigResponse": {
+			"PushServiceDeliveryConfigResponse": {
 				"type": "object",
 				"properties": {
 					"enabled": {"default": false, "type": "boolean"},
 					"config_version": {"default": 0, "type": "integer", "minimum": 0, "maximum": 9007199254740991},
 					"rollout_basis_points": {"default": 0, "type": "integer", "minimum": 0, "maximum": 10000},
-					"rollout_salt": {"default": "screen-share-delivery-v1", "type": "string", "minLength": 1, "maxLength": 64},
+					"rollout_salt": {
+						"default": "push-service-delivery-v1",
+						"type": "string",
+						"minLength": 1,
+						"maxLength": 64,
+						"pattern": "^[\\x20-\\x7e]+$"
+					},
 					"included_user_ids": {
 						"default": [],
 						"maxItems": 1000,

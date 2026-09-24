@@ -1528,6 +1528,9 @@
         "msgid": "Ask for a passkey after your password when you sign in"
       },
       {
+        "msgid": "Ask the administrators of this instance to review your account. This instance is run independently, and only its administrators can change your account."
+      },
+      {
         "msgid": "Attachment {pendingFilename}"
       },
       {
@@ -1759,6 +1762,12 @@
         "msgid": "Community overrides"
       },
       {
+        "msgid": "Compressing"
+      },
+      {
+        "msgid": "Compressing {percent}%"
+      },
+      {
         "msgid": "Connect a camera and try again."
       },
       {
@@ -1769,6 +1778,9 @@
       },
       {
         "msgid": "Connection volume controls"
+      },
+      {
+        "msgid": "Contact the administrators of this instance for help."
       },
       {
         "msgid": "Copy emoji"
@@ -1796,6 +1808,9 @@
       },
       {
         "msgid": "Create the administrator account"
+      },
+      {
+        "msgid": "Cropping {percent}%"
       },
       {
         "msgid": "Custom emoji {emojiName} from a community"
@@ -2272,6 +2287,9 @@
         "msgid": "Premium model"
       },
       {
+        "msgid": "Preparing"
+      },
+      {
         "msgid": "Prevent <0>{targetUserTag}</0> from sending messages, reacting, and connecting to voice channels for the specified duration."
       },
       {
@@ -2573,6 +2591,9 @@
       },
       {
         "msgid": "Send messages in this channel."
+      },
+      {
+        "msgid": "Sending an SMS to this phone number is too expensive for {PRODUCT_NAME}, so we need you to send us an SMS instead. We know this isn't ideal. You can also ask the administrators of this instance to lift this requirement from your account."
       },
       {
         "msgid": "Sending {resolution} at {frameRate} FPS with {codec}"
@@ -2974,10 +2995,25 @@
         "msgid": "These options change how people use the instance. Some can only be chosen during setup."
       },
       {
+        "msgid": "This animation is too long or too large to crop. Try a shorter or smaller file."
+      },
+      {
+        "msgid": "This browser can't crop animated {AVIF_FORMAT_LABEL} files. Upload a GIF or WebP instead."
+      },
+      {
+        "msgid": "This browser can't crop animated {avifFormatLabel} files. Upload a GIF or WebP instead."
+      },
+      {
+        "msgid": "This browser has WebAssembly turned off, so animated images can't be cropped."
+      },
+      {
         "msgid": "This device could not keep up with {targetResolution} at {targetFrameRate} FPS last time, so your stream started at {resolution} at {frameRate} FPS."
       },
       {
         "msgid": "This emoji is from"
+      },
+      {
+        "msgid": "This image couldn't be read. It may be damaged."
       },
       {
         "msgid": "This instance currently allows screen share up to 720p at 30 FPS."
@@ -2993,6 +3029,9 @@
       },
       {
         "msgid": "This is a custom sticker from a community. Ask the author for an invite to use this sticker."
+      },
+      {
+        "msgid": "This is not available on your account right now. Ask the administrators of this instance to review it."
       },
       {
         "msgid": "This is not available on your account right now. Email {supportEmail} and a person will review it."
@@ -3124,6 +3163,9 @@
         "msgid": "Volume sliders"
       },
       {
+        "msgid": "We couldn't reach the attachment upload service. {PRODUCT_NAME} can fall back to the standard upload path for messages up to {fallbackSizeFormatted} total, but these attachments exceed that combined limit and can't be sent until connectivity is restored. Try again later or contact the administrators of this instance if this keeps happening."
+      },
+      {
         "msgid": "We couldn't verify this number automatically. Contact support and a person will review your account."
       },
       {
@@ -3158,6 +3200,9 @@
       },
       {
         "msgid": "You asked for {resolution} at {frameRate} FPS"
+      },
+      {
+        "msgid": "You can still ask the administrators of this instance for a human review at any time."
       },
       {
         "msgid": "You can still email {supportEmail} for a human review at any time."
