@@ -1,0 +1,108 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Update Fluxer Homelab Server
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      force_rebuild:
+        description: "Force Docker rebuild (--build)"
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy-fluxer-server
+  cancel-in-progress: false
+
+jobs:
+  update-server:
+    name: Sync & Update Fluxer Server Container
+    runs-on: [self-hosted, linux]
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy updates to Fluxer Docker Compose instance
+        shell: bash
+        env:
+          FLUXER_COMPOSE_DIR: ${{ vars.FLUXER_COMPOSE_DIR || '/opt/fluxer' }}
+          FLUXER_SSH_HOST: ${{ secrets.FLUXER_SSH_HOST || '' }}
+          FLUXER_SSH_USER: ${{ secrets.FLUXER_SSH_USER || 'root' }}
+          FLUXER_SSH_KEY: ${{ secrets.FLUXER_SSH_KEY || '' }}
+          FLUXER_SSH_PORT: ${{ secrets.FLUXER_SSH_PORT || '22' }}
+          FORCE_REBUILD: ${{ inputs.force_rebuild || 'false' }}
+        run: |
+          set -euo pipefail
+          echo "=========================================================="
+          echo "Deploying latest server code / bug fixes to Fluxer instance"
+          echo "=========================================================="
+
+          UPDATE_CMD="cd \"${FLUXER_COMPOSE_DIR}\""
+          UPDATE_CMD="${UPDATE_CMD} && git pull origin main"
+
+          if [ "${FORCE_REBUILD}" = "true" ]; then
+            echo "Rebuilding containers with --build..."
+            UPDATE_CMD="${UPDATE_CMD} && docker compose up -d --build --remove-orphans"
+          else
+            echo "Pulling latest images and updating containers..."
+            UPDATE_CMD="${UPDATE_CMD} && (docker compose pull || true) && docker compose up -d --remove-orphans"
+          fi
+
+          # Method 1: SSH connection (if SSH secrets are configured)
+          if [ -n "${FLUXER_SSH_HOST}" ] && [ -n "${FLUXER_SSH_KEY}" ]; then
+            echo "Connecting to LXC container via SSH (${FLUXER_SSH_USER}@${FLUXER_SSH_HOST}:${FLUXER_SSH_PORT})..."
+            mkdir -p ~/.ssh
+            echo "${FLUXER_SSH_KEY}" > ~/.ssh/deploy_key
+            chmod 600 ~/.ssh/deploy_key
+            ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 -i ~/.ssh/deploy_key -p "${FLUXER_SSH_PORT}" "${FLUXER_SSH_USER}@${FLUXER_SSH_HOST}" "${UPDATE_CMD}"
+            rm -f ~/.ssh/deploy_key
+
+          # Method 2: Direct Docker CLI / socket (if runner shares docker.sock in the LXC container)
+          elif command -v docker >/dev/null 2>&1 && [ -S /var/run/docker.sock ]; then
+            echo "Docker socket detected locally on runner. Executing update directly in ${FLUXER_COMPOSE_DIR}..."
+            eval "${UPDATE_CMD}"
+
+          # Method 3: Container network communication
+          else
+            echo "::warning::No SSH key provided and no local /var/run/docker.sock found."
+            echo "To automate server updates, either:"
+            echo " 1. Mount /var/run/docker.sock into your Forgejo runner container (recommended for LXC container networks)."
+            echo " 2. Or add repository secrets: FLUXER_SSH_HOST and FLUXER_SSH_KEY."
+            echo "Falling back to running docker compose in current workspace..."
+            docker compose -f deploy/self-hosting/docker-compose.yml up -d || true
+          fi
+
+      - name: Verify instance health
+        shell: bash
+        env:
+          # In the container network, Caddy communicates directly as 'edge' or 'api:8080' or localhost
+          HEALTH_URL: ${{ vars.FLUXER_HEALTH_URL || 'http://edge/_health' }}
+        run: |
+          echo "Verifying server status on container network at: ${HEALTH_URL}"
+          # Retry up to 12 times (60 seconds) while services reload
+          for i in {1..12}; do
+            if curl -sSf -o /dev/null -w "%{http_code}" "${HEALTH_URL}" 2>/dev/null | grep -q "200"; then
+              echo "Server is healthy and serving requests!"
+              exit 0
+            fi
+            # Also try alternative internal endpoints
+            if curl -sSf -o /dev/null "http://api:8080/_health" 2>/dev/null; then
+              echo "API container responded healthy on http://api:8080/_health!"
+              exit 0
+            fi
+            if curl -sSf -o /dev/null "http://127.0.0.1:8080/_health" 2>/dev/null; then
+              echo "API container responded healthy on http://127.0.0.1:8080/_health!"
+              exit 0
+            fi
+            echo "Waiting for services to become ready... (attempt $i/12)"
+            sleep 5
+          done
+          echo "::notice::Health check timed out. Containers may still be starting up."

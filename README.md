@@ -152,20 +152,22 @@ terms, listed in
 Public availability of this repository does not grant trademark, brand, or
 endorsement rights.
 
-[win-setup-x64]: https://fluxer.cameronjolly.com/desktop/stable/win32/x64/latest/setup
-[win-setup-arm64]: https://fluxer.cameronjolly.com/desktop/stable/win32/arm64/latest/setup
-[win-portable-x64]: https://fluxer.cameronjolly.com/desktop/stable/win32/x64/latest/portable
-[win-portable-arm64]: https://fluxer.cameronjolly.com/desktop/stable/win32/arm64/latest/portable
-[mac-dmg]: https://fluxer.cameronjolly.com/desktop/stable/darwin/arm64/latest/dmg
-[linux-deb-x64]: https://fluxer.cameronjolly.com/desktop/stable/linux/x64/latest/deb
-[linux-deb-arm64]: https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/latest/deb
-[linux-rpm-x64]: https://fluxer.cameronjolly.com/desktop/stable/linux/x64/latest/rpm
-[linux-rpm-arm64]: https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/latest/rpm
-[linux-appimage-x64]: https://fluxer.cameronjolly.com/desktop/stable/linux/x64/latest/appimage
-[linux-appimage-arm64]: https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/latest/appimage
-[linux-targz-x64]: https://fluxer.cameronjolly.com/desktop/stable/linux/x64/latest/tar_gz
-[linux-targz-arm64]: https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/latest/tar_gz
-[flatpak-ref]: https://fluxer.cameronjolly.com/flatpak/fluxer.flatpakref
+[win-setup-x64]: https://pkgs.fluxer.com/desktop/stable/win32/x64/latest/setup
+[win-setup-arm64]: https://pkgs.fluxer.com/desktop/stable/win32/arm64/latest/setup
+[win-portable-x64]: https://pkgs.fluxer.com/desktop/stable/win32/x64/latest/portable
+[win-portable-arm64]: https://pkgs.fluxer.com/desktop/stable/win32/arm64/latest/portable
+[mac-dmg]: https://pkgs.fluxer.com/desktop/stable/darwin/arm64/latest/dmg
+[linux-deb-x64]: https://pkgs.fluxer.com/desktop/stable/linux/x64/latest/deb
+[linux-deb-arm64]: https://pkgs.fluxer.com/desktop/stable/linux/arm64/latest/deb
+[linux-rpm-x64]: https://pkgs.fluxer.com/desktop/stable/linux/x64/latest/rpm
+[linux-rpm-arm64]: https://pkgs.fluxer.com/desktop/stable/linux/arm64/latest/rpm
+[linux-appimage-x64]: https://pkgs.fluxer.com/desktop/stable/linux/x64/latest/appimage
+[linux-appimage-arm64]: https://pkgs.fluxer.com/desktop/stable/linux/arm64/latest/appimage
+[linux-targz-x64]: https://pkgs.fluxer.com/desktop/stable/linux/x64/latest/tar_gz
+[linux-targz-arm64]: https://pkgs.fluxer.com/desktop/stable/linux/arm64/latest/tar_gz
+[flatpak-ref]: https://pkgs.fluxer.com/flatpak/fluxer.flatpakref
+[flatpak-canary-ref]: https://pkgs.fluxer.com/flatpak/fluxer-canary.flatpakref
+[flathub]: https://flathub.org/apps/app.fluxer.Fluxer
 [android-apk]: https://github.com/fluxerapp/flutter_client/releases
 [obtainium]: https://obtainium.imranr.dev/
 [ios-testflight]: https://testflight.apple.com/join/PKZR6pK9

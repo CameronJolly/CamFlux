@@ -1,0 +1,439 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Code Correctness & Tests
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  CARGO_PROFILE_DEV_DEBUG: none
+  CARGO_PROFILE_TEST_DEBUG: none
+  CARGO_INCREMENTAL: '0'
+
+jobs:
+  lint:
+    name: Lint & Style Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check formatting and linting (Biome)
+        run: pnpm exec biome ci .
+
+      - name: Lint JSX for browser-translation safety (ESLint)
+        run: pnpm exec eslint . --max-warnings 0
+
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust toolchain (CI helpers)
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98.1"
+          targets: wasm32-unknown-unknown
+
+      - name: Restore CI helper cache
+        id: ci-helper-cache
+        uses: actions/cache/restore@v4
+        continue-on-error: true
+        with:
+          path: target/debug/fluxer-ci
+          key: fluxer-ci-bin-${{ runner.os }}-1.98.1-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'tools/ci/Cargo.toml', 'tools/ci/src/**', 'tools/ci/templates/**') }}
+
+      - name: Build CI helper binary
+        if: steps.ci-helper-cache.outputs.cache-hit != 'true'
+        run: cargo build --locked --package fluxer-ci
+
+      - name: Save CI helper cache
+        if: github.ref == 'refs/heads/main' && steps.ci-helper-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: target/debug/fluxer-ci
+          key: fluxer-ci-bin-${{ runner.os }}-1.98.1-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'tools/ci/Cargo.toml', 'tools/ci/src/**', 'tools/ci/templates/**') }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: tools/ci/run.sh ci --step install_dependencies
+
+      - name: Run TypeScript typecheck
+        run: tools/ci/run.sh ci --step typecheck
+
+  test:
+    name: Unit & Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PNPM_TEST_WORKSPACE_CONCURRENCY: '2'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust toolchain (CI helpers)
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98.1"
+          targets: wasm32-unknown-unknown
+
+      - name: Restore CI helper cache
+        id: ci-helper-cache
+        uses: actions/cache/restore@v4
+        continue-on-error: true
+        with:
+          path: target/debug/fluxer-ci
+          key: fluxer-ci-bin-${{ runner.os }}-1.98.1-${{ hashFiles('Cargo.lock', 'Cargo.toml', 'tools/ci/Cargo.toml', 'tools/ci/src/**', 'tools/ci/templates/**') }}
+
+      - name: Build CI helper binary
+        if: steps.ci-helper-cache.outputs.cache-hit != 'true'
+        run: cargo build --locked --package fluxer-ci
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: tools/ci/run.sh ci --step install_dependencies
+
+      - name: Restore fluxer_app WASM artifacts cache
+        id: app-wasm-cache
+        uses: actions/cache/restore@v4
+        continue-on-error: true
+        with:
+          path: |
+            fluxer_app/pkgs/libfluxcore
+            fluxer_app/pkgs/libfluxwebp
+            fluxer_app/src/features/messaging/utils/markdown/parser/MarkdownParserWasmBytes.ts
+          key: app-wasm-${{ runner.os }}-1.98.1-${{ hashFiles('Cargo.lock', 'tools/ci/src/app_wasm.rs', 'fluxer_app/rust/libfluxcore/**', 'fluxer_app/rust/libfluxwebp/**') }}
+
+      - name: Run test suite
+        run: tools/ci/run.sh ci --step test
+
+  rust:
+    name: Rust Checks & Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98.1"
+          components: clippy, rustfmt
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: 'pnpm'
+
+      - name: Restore cargo cache
+        uses: actions/cache@v4
+        continue-on-error: true
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: rust-${{ runner.os }}-${{ hashFiles('fluxer_media_proxy/tools/install-native-deps.sh') }}-${{ hashFiles('Cargo.lock') }}
+          restore-keys: |
+            rust-${{ runner.os }}-${{ hashFiles('fluxer_media_proxy/tools/install-native-deps.sh') }}-
+
+      - name: Install cargo-deny
+        run: cargo install cargo-deny --version 0.20.2 --locked || true
+
+      - name: Check Rust dependencies
+        run: cargo deny --locked check -D warnings
+
+      - name: Check libfluxwebp dependencies
+        run: cargo deny --manifest-path fluxer_app/rust/libfluxwebp/Cargo.toml --config deny.toml --locked check licenses bans sources
+
+      - name: Check desktop native dependencies
+        run: tools/ci/check-desktop-native-workspaces.sh dependencies
+
+      - name: Install native build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            binutils \
+            clang \
+            cmake \
+            curl \
+            libaom-dev \
+            libavfilter-dev \
+            libclang-dev \
+            libcurl4-openssl-dev \
+            libdav1d-dev \
+            libde265-dev \
+            libfido2-dev \
+            libheif-dev \
+            liblcms2-dev \
+            libpipewire-0.3-dev \
+            libspa-0.2-dev \
+            libssl-dev \
+            libudev-dev \
+            libvips-dev \
+            libwebp-dev \
+            libyuv-dev \
+            meson \
+            nasm \
+            ninja-build \
+            pkg-config \
+            xz-utils \
+            yasm \
+            zlib1g-dev
+          sudo fluxer_media_proxy/tools/install-native-deps.sh /opt/fluxer-native
+          echo "PKG_CONFIG_PATH=/opt/fluxer-native/lib/pkgconfig:/opt/fluxer-native/lib64/pkgconfig" >> "$GITHUB_ENV"
+          echo "LD_LIBRARY_PATH=/opt/fluxer-native/lib:/opt/fluxer-native/lib64" >> "$GITHUB_ENV"
+          echo "/opt/fluxer-native/bin" >> "$GITHUB_PATH"
+
+      - name: Install admin package dependencies
+        run: pnpm --filter fluxer_admin install
+
+      - name: Check formatting (cargo fmt)
+        run: cargo fmt --all -- --check
+
+      - name: Check formatting (libfluxwebp)
+        run: cargo fmt --manifest-path fluxer_app/rust/libfluxwebp/Cargo.toml -- --check
+
+      - name: Check formatting (desktop native workspaces)
+        run: tools/ci/check-desktop-native-workspaces.sh fmt
+
+      - name: Clippy (workspace)
+        run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
+
+      - name: Clippy (desktop native workspaces)
+        run: tools/ci/check-desktop-native-workspaces.sh clippy
+
+      - name: Run Cargo tests
+        env:
+          FLUXER_REQUIRE_MEDIA_FIXTURES: "1"
+        run: cargo test --workspace --all-features --locked
+
+      - name: Run desktop native workspace tests
+        run: tools/ci/check-desktop-native-workspaces.sh test
+
+  gateway:
+    name: Gateway (Erlang/OTP) Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98.1"
+
+      - name: Set up Erlang / rebar3
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: '28'
+          rebar3-version: '3.27.0'
+
+      - name: Check Erlang formatting
+        run: tools/ci/run.sh ci --step gateway_fmt
+
+      - name: Compile Gateway
+        run: tools/ci/run.sh ci --step gateway_compile
+
+      - name: Run Dialyzer
+        run: tools/ci/run.sh ci --step gateway_dialyzer
+
+      - name: Run EUnit tests
+        run: tools/ci/run.sh ci --step gateway_eunit
+
+  knip:
+    name: Unused Code & Dependency Check (Knip)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98.1"
+          targets: wasm32-unknown-unknown
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: tools/ci/run.sh ci --step install_dependencies
+
+      - name: Run Knip check
+        run: tools/ci/run.sh ci --step knip
+
+  i18n:
+    name: Internationalization (i18n) Sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Compile locale catalogs
+        run: pnpm i18n:compile
+
+      - name: Verify compiled locale modules have no drift
+        run: |
+          if ! git diff --exit-code -- \
+            packages/errors/src/i18n/locales \
+            packages/errors/src/i18n/ErrorI18nTypes.generated.ts \
+            fluxer_api/pkgs/email/src/email_i18n/locales \
+            fluxer_api/pkgs/email/src/email_i18n/EmailI18nTypes.generated.ts \
+            fluxer_api/src/api/content_i18n/locales; then
+            echo "::error::Compiled locale modules are outdated. Run 'pnpm i18n:compile' and commit the result."
+            exit 1
+          fi
+
+  docs:
+    name: Documentation Verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: 'pnpm'
+
+      - name: Install docs dependencies
+        run: pnpm install --frozen-lockfile --filter fluxer_docs...
+
+      - name: Verify documentation against live API
+        run: pnpm --filter fluxer_docs verify
+
+      - name: Build documentation
+        run: pnpm --filter fluxer_docs build
+
+  openapi-drift:
+    name: Detect OpenAPI Schema Drift
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98.1"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: tools/ci/run.sh ci --step install_dependencies
+
+      - name: Generate OpenAPI schemas
+        run: pnpm openapi:generate
+
+      - name: Validate OpenAPI schemas
+        run: pnpm openapi:validate
+
+      - name: Check drift of OpenAPI schemas
+        run: |
+          if ! git diff --exit-code -- fluxer_api/src/api/openapi/openapi.json fluxer_admin/openapi-admin.json; then
+            echo "::error::OpenAPI schemas are outdated. Commit the updated openapi.json schemas."
+            exit 1
+          fi
+
+  fonts:
+    name: Font Verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install font tooling
+        run: python3 -m pip install -r tools/fonts/requirements.txt
+
+      - name: Verify fonts match the lockfile
+        run: python3 tools/fonts/build_fonts.py --verify
