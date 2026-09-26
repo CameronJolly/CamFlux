@@ -48,8 +48,8 @@
         </screenshot>
     </screenshots>
     <url type="bugtracker">https://github.com/fluxerapp/fluxer/issues</url>
-    <url type="homepage">https://fluxer.cameronjolly.com</url>
-    <url type="donation">https://fluxer.cameronjolly.com/donate</url>
+    <url type="homepage">https://web.fluxer.app</url>
+    <url type="donation">https://web.fluxer.app/donate</url>
     <url type="vcs-browser">https://github.com/fluxerapp/fluxer.git</url>
     <update_contact>fen@unix.dog</update_contact>
     <provides>

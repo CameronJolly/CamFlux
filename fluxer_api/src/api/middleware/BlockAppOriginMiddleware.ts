@@ -5,7 +5,7 @@ import type {Context, Next} from 'hono';
 
 export async function BlockAppOriginMiddleware(ctx: Context, next: Next) {
 	const origin = ctx.req.header('origin');
-	if (origin === 'https://fluxer.cameronjolly.com' || origin === 'https://fluxer.cameronjolly.com') {
+	if (origin === 'https://web.fluxer.app' || origin === 'https://web.fluxer.app') {
 		throw new InvalidApiOriginError();
 	}
 	await next();

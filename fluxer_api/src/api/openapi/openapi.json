@@ -8,7 +8,7 @@
 		"contact": {"name": "Fluxer Platform AB", "email": "support@fluxer.app"},
 		"license": {"name": "AGPL-3.0", "url": "https://www.gnu.org/licenses/agpl-3.0.html"}
 	},
-	"servers": [{"url": "https://fluxer.cameronjolly.com/v1", "description": "Production API"}],
+	"servers": [{"url": "https://web.fluxer.app/v1", "description": "Production API"}],
 	"paths": {
 		"/.well-known/fluxer": {
 			"get": {

@@ -5,6 +5,7 @@ import {
 	type DesktopWindowBehaviorSettings,
 	getDesktopWindowBehaviorSettings,
 	setDesktopWindowBehaviorSettings,
+	setRuntimeAppUrlOverride,
 } from '@electron/common/DesktopConfig';
 import type {
 	ClipboardWriteFileResult,
@@ -139,6 +140,17 @@ export function registerIpcHandlers(): void {
 	ipcMain.handle('get-desktop-info', () => getDesktopInfo());
 	ipcMain.handle('get-gpu-info', () => getGpuInfo());
 	ipcMain.handle('get-app-metrics', () => getAppMetricsSnapshot());
+	ipcMain.handle('set-app-url-override', (_event, url: string) => {
+		setRuntimeAppUrlOverride(url);
+	});
+	ipcMain.handle('ping-app-url', async (_event, url: string): Promise<boolean> => {
+		try {
+			const res = await fetch(url + '/login');
+			return res.ok || res.status < 500;
+		} catch {
+			return false;
+		}
+	});
 	ipcMain.handle('streamer-mode:get-capture-app-status', () => getStreamerModeCaptureAppStatus());
 	ipcMain.handle('system-idle-time-ms', (): number => {
 		return Math.max(0, powerMonitor.getSystemIdleTime() * 1000);

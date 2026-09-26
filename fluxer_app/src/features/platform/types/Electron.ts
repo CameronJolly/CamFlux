@@ -305,6 +305,8 @@ export interface AppMetricsSnapshot {
 
 export interface ElectronAPI {
 	platform: NodeJS.Platform;
+	setAppUrlOverride?: (url: string) => Promise<void>;
+	pingAppUrl?: (url: string) => Promise<boolean>;
 	getDesktopInfo: () => Promise<DesktopInfo>;
 	getGpuInfo?: () => Promise<GpuInfo>;
 	getAppMetrics?: () => Promise<AppMetricsSnapshot>;

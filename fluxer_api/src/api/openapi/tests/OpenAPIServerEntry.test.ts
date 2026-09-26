@@ -37,7 +37,7 @@ describe('OpenAPI server entry', () => {
 		expect(spec.servers).toEqual([
 			{url: `${Config.endpoints.apiClient.replace(/\/+$/u, '')}/v1`, description: 'This deployment'},
 		]);
-		expect(spec.servers[0].url).not.toContain('api.fluxer.cameronjolly.com');
+		expect(spec.servers[0].url).not.toContain('api.web.fluxer.app');
 		expect(Object.keys(spec.paths).length).toBeGreaterThan(0);
 	});
 });

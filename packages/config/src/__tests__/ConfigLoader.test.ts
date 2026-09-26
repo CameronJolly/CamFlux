@@ -206,7 +206,7 @@ describe('ConfigLoader', () => {
 		stubMinimalEnv();
 		const config = await loadConfig();
 		expect(config.auth.passkeys.additional_allowed_origins).toEqual([
-			'https://fluxer.cameronjolly.com',
+			'https://web.fluxer.app',
 			'android:apk-key-hash:keSY4bimyLqZQV7bKXgpa2xYuqXi0qZJzsYtp6gpx7w',
 			'android:apk-key-hash:zRmCKDKo3uCX2GDZISjJx8Rzo3J-Y3Gbp7s7mAaUH28',
 			'http://localhost:8088',

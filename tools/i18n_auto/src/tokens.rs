@@ -344,7 +344,7 @@ mod tests {
     #[test]
     fn detects_sources_that_should_stay_unchanged() {
         assert!(should_keep_unchanged("", "de"));
-        assert!(should_keep_unchanged("https://fluxer.cameronjolly.com/docs", "de"));
+        assert!(should_keep_unchanged("https://web.fluxer.app/docs", "de"));
         assert!(should_keep_unchanged("{productName}", "de"));
         assert!(should_keep_unchanged("{authorName} {description}", "de"));
         assert!(should_keep_unchanged(

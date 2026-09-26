@@ -55,7 +55,7 @@ describe('OpenExternal URL validation', () => {
 	test('allows standard and custom external protocols', () => {
 		const {shouldOpenExternalUrl} = loadOpenExternal();
 
-		assert.equal(shouldOpenExternalUrl('https://fluxer.cameronjolly.com'), true);
+		assert.equal(shouldOpenExternalUrl('https://web.fluxer.app'), true);
 		assert.equal(shouldOpenExternalUrl('http://fluxer.app'), true);
 		assert.equal(shouldOpenExternalUrl('mailto:support@fluxer.app'), true);
 		assert.equal(shouldOpenExternalUrl('tel:+15551234567'), true);
@@ -89,9 +89,9 @@ describe('OpenExternal URL validation', () => {
 		const {openExternalDeduped, openExternalCalls} = loadOpenExternal();
 
 		await openExternalDeduped('HTTPS://Fluxer.App/path');
-		await openExternalDeduped('https://fluxer.cameronjolly.com/path');
+		await openExternalDeduped('https://web.fluxer.app/path');
 
-		assert.deepEqual(openExternalCalls, ['https://fluxer.cameronjolly.com/path']);
+		assert.deepEqual(openExternalCalls, ['https://web.fluxer.app/path']);
 	});
 
 	test('rejects blocked URLs before calling Electron shell', async () => {

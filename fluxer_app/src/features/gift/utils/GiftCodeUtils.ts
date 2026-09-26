@@ -4,10 +4,10 @@ import RuntimeConfig from '@app/features/app/state/RuntimeConfig';
 import * as CodeLinkUtils from '@app/features/messaging/utils/CodeLinkUtils';
 
 const OFFICIAL_GIFT_URL_BASES = Object.freeze([
-	'https://fluxer.cameronjolly.com/gift',
-	'https://fluxer.cameronjolly.com/gift',
-	'https://fluxer.cameronjolly.com/gift',
-	'https://fluxer.cameronjolly.com/gift',
+	'https://web.fluxer.app/gift',
+	'https://web.fluxer.app/gift',
+	'https://web.fluxer.app/gift',
+	'https://web.fluxer.app/gift',
 	'https://fluxer.gift',
 	'https://fluxer.gift/gift',
 ]);

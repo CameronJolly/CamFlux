@@ -4,6 +4,7 @@ import RuntimeConfig from '@app/features/app/state/RuntimeConfig';
 import * as AuthenticationCommands from '@app/features/auth/commands/AuthenticationCommands';
 import {AccountSelector} from '@app/features/auth/components/accounts/AccountSelector';
 import styles from '@app/features/auth/components/pages/LoginPage.module.css';
+import FormField from '@app/features/auth/flow/AuthFormField';
 import {AuthRouterLink} from '@app/features/auth/flow/AuthRouterLink';
 import {
 	AuthSsoPanel,
@@ -133,6 +134,36 @@ export const AuthLoginLayout = observer(function AuthLoginLayout({
 	const [isSwitching, setIsSwitching] = useState(false);
 	const [switchError, setSwitchError] = useState<string | null>(null);
 	const [prefillEmail, setPrefillEmail] = useState<string | null>(() => initialEmail ?? null);
+	const [customUrl, setCustomUrl] = useState('');
+	const [customUrlError, setCustomUrlError] = useState<string | null>(null);
+	const [isSwappingUrl, setIsSwappingUrl] = useState(false);
+
+	const handleSwapUrl = useCallback(async () => {
+		if (!customUrl) return;
+		setCustomUrlError(null);
+		setIsSwappingUrl(true);
+		try {
+			let urlToTest = customUrl;
+			if (!urlToTest.startsWith('http://') && !urlToTest.startsWith('https://')) {
+				urlToTest = 'https://' + urlToTest;
+			}
+			const url = new URL(urlToTest);
+			if (window.electron?.pingAppUrl) {
+				const isReachable = await window.electron.pingAppUrl(url.origin);
+				if (!isReachable) throw new Error('Unreachable');
+			} else {
+				await fetch(url.origin + '/login', {mode: 'no-cors'});
+			}
+			if (window.electron?.setAppUrlOverride) {
+				await window.electron.setAppUrlOverride(url.origin);
+			}
+			window.location.assign(url.origin + '/login');
+		} catch (error) {
+			setCustomUrlError('Not a valid URL or server is unreachable.');
+			setIsSwappingUrl(false);
+		}
+	}, [customUrl]);
+
 	const ssoRedirectPath = desktopHandoff ? `${location.pathname}${location.search}` : redirectPath;
 	const showLoginFormForAccount = useCallback((account: Account, message?: string | null) => {
 		setShowAccountSelector(false);
@@ -359,6 +390,22 @@ export const AuthLoginLayout = observer(function AuthLoginLayout({
 					}
 					disableSubmit={isPasskeyLoading}
 					data-flx="auth.flow.auth-login-layout.auth-login-email-password-form"
+					extraFields={
+						isDesktop() ? (
+							<div style={{marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px'}}>
+								<FormField
+									name="customUrl"
+									label="Custom Server URL"
+									value={customUrl}
+									onChange={setCustomUrl}
+									error={customUrlError || undefined}
+								/>
+								<Button type="button" fitContainer onClick={handleSwapUrl} disabled={isSwappingUrl || !customUrl}>
+									Swap to Custom URL
+								</Button>
+							</div>
+						) : undefined
+					}
 				/>
 				<AuthLoginDivider
 					classes={{

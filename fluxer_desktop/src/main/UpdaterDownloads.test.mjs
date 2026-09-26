@@ -49,12 +49,12 @@ describe('UpdaterDownloads Linux manual update options', () => {
 		const {getManualDownloadOptions} = loadUpdaterDownloads();
 		const info = latestInfo('2026.910.101500', {
 			appimage: {
-				url: 'https://fluxer.cameronjolly.com/api/dl/desktop/stable/linux/x64/2026.910.101500/appimage',
+				url: 'https://web.fluxer.app/api/dl/desktop/stable/linux/x64/2026.910.101500/appimage',
 				sha256: APPIMAGE_SHA256,
 			},
-			deb: {url: 'https://fluxer.cameronjolly.com/api/dl/desktop/stable/linux/x64/2026.910.101500/deb', sha256: DEB_SHA256},
+			deb: {url: 'https://web.fluxer.app/api/dl/desktop/stable/linux/x64/2026.910.101500/deb', sha256: DEB_SHA256},
 			tar_gz: {
-				url: 'https://fluxer.cameronjolly.com/api/dl/desktop/stable/linux/x64/2026.910.101500/tar_gz',
+				url: 'https://web.fluxer.app/api/dl/desktop/stable/linux/x64/2026.910.101500/tar_gz',
 				sha256: TAR_GZ_SHA256,
 			},
 		});
@@ -63,28 +63,28 @@ describe('UpdaterDownloads Linux manual update options', () => {
 			{
 				format: 'appimage',
 				label: 'AppImage',
-				url: 'https://fluxer.cameronjolly.com/desktop/stable/linux/x64/2026.910.101500/appimage',
+				url: 'https://web.fluxer.app/desktop/stable/linux/x64/2026.910.101500/appimage',
 				suggestedName: 'Fluxer-2026.910.101500-linux-x86_64.AppImage',
 				sha256: APPIMAGE_SHA256,
 			},
 			{
 				format: 'deb',
 				label: 'DEB package',
-				url: 'https://fluxer.cameronjolly.com/desktop/stable/linux/x64/2026.910.101500/deb',
+				url: 'https://web.fluxer.app/desktop/stable/linux/x64/2026.910.101500/deb',
 				suggestedName: 'Fluxer-2026.910.101500-linux-amd64.deb',
 				sha256: DEB_SHA256,
 			},
 			{
 				format: 'rpm',
 				label: 'RPM package',
-				url: 'https://fluxer.cameronjolly.com/desktop/stable/linux/x64/2026.910.101500/rpm',
+				url: 'https://web.fluxer.app/desktop/stable/linux/x64/2026.910.101500/rpm',
 				suggestedName: 'Fluxer-2026.910.101500-linux-x86_64.rpm',
 				sha256: null,
 			},
 			{
 				format: 'tar_gz',
 				label: 'tar.gz archive',
-				url: 'https://fluxer.cameronjolly.com/desktop/stable/linux/x64/2026.910.101500/tar_gz',
+				url: 'https://web.fluxer.app/desktop/stable/linux/x64/2026.910.101500/tar_gz',
 				suggestedName: 'Fluxer-2026.910.101500-linux-x64.tar.gz',
 				sha256: TAR_GZ_SHA256,
 			},
@@ -99,19 +99,19 @@ describe('UpdaterDownloads Linux manual update options', () => {
 			options.map((option) => [option.url, option.suggestedName]),
 			[
 				[
-					'https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/2026.910.101500/appimage',
+					'https://web.fluxer.app/desktop/stable/linux/arm64/2026.910.101500/appimage',
 					'Fluxer-2026.910.101500-linux-arm64.AppImage',
 				],
 				[
-					'https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/2026.910.101500/deb',
+					'https://web.fluxer.app/desktop/stable/linux/arm64/2026.910.101500/deb',
 					'Fluxer-2026.910.101500-linux-arm64.deb',
 				],
 				[
-					'https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/2026.910.101500/rpm',
+					'https://web.fluxer.app/desktop/stable/linux/arm64/2026.910.101500/rpm',
 					'Fluxer-2026.910.101500-linux-aarch64.rpm',
 				],
 				[
-					'https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/2026.910.101500/tar_gz',
+					'https://web.fluxer.app/desktop/stable/linux/arm64/2026.910.101500/tar_gz',
 					'Fluxer-2026.910.101500-linux-arm64.tar.gz',
 				],
 			],
@@ -127,9 +127,9 @@ describe('UpdaterDownloads Linux manual update options', () => {
 			(option) => option.format === 'deb',
 		);
 
-		assert.equal(stableDeb.url, 'https://fluxer.cameronjolly.com/desktop/stable/linux/x64/2026.910.101500/deb');
+		assert.equal(stableDeb.url, 'https://web.fluxer.app/desktop/stable/linux/x64/2026.910.101500/deb');
 		assert.equal(stableDeb.suggestedName, 'Fluxer-2026.910.101500-linux-amd64.deb');
-		assert.equal(canaryDeb.url, 'https://fluxer.cameronjolly.com/desktop/canary/linux/x64/2026.910.101500/deb');
+		assert.equal(canaryDeb.url, 'https://web.fluxer.app/desktop/canary/linux/x64/2026.910.101500/deb');
 		assert.equal(canaryDeb.suggestedName, 'Fluxer-Canary-2026.910.101500-linux-amd64.deb');
 	});
 
@@ -137,7 +137,7 @@ describe('UpdaterDownloads Linux manual update options', () => {
 		const {getManualDownloadOptions, getManualDownloadUrl} = loadUpdaterDownloads({channel: 'canary'});
 		const info = latestInfo('2026.908.173325', {
 			deb: {
-				url: 'https://fluxer.cameronjolly.com/api/dl/desktop/canary/linux/x64/2026.908.173325/deb',
+				url: 'https://web.fluxer.app/api/dl/desktop/canary/linux/x64/2026.908.173325/deb',
 				sha256: DEB_SHA256,
 			},
 		});
@@ -145,7 +145,7 @@ describe('UpdaterDownloads Linux manual update options', () => {
 		const deb = options.find((option) => option.format === 'deb');
 
 		assert.equal(deb.suggestedName, 'Fluxer-Canary-2026.908.173325-linux-amd64.deb');
-		assert.equal(deb.url, 'https://fluxer.cameronjolly.com/desktop/canary/linux/x64/2026.908.173325/deb');
+		assert.equal(deb.url, 'https://web.fluxer.app/desktop/canary/linux/x64/2026.908.173325/deb');
 		assert.equal(deb.sha256, DEB_SHA256);
 		assert.equal(options.length, 4);
 		for (const option of options) {
@@ -156,7 +156,7 @@ describe('UpdaterDownloads Linux manual update options', () => {
 		}
 		assert.equal(
 			getManualDownloadUrl(info),
-			'https://fluxer.cameronjolly.com/desktop/canary/linux/x64/2026.908.173325/appimage',
+			'https://web.fluxer.app/desktop/canary/linux/x64/2026.908.173325/appimage',
 		);
 	});
 });
@@ -166,21 +166,21 @@ describe('UpdaterDownloads manual download url', () => {
 		const {getManualDownloadUrl} = loadUpdaterDownloads();
 		const info = latestInfo('2026.910.101500', {
 			appimage: {
-				url: 'https://fluxer.cameronjolly.com/api/dl/desktop/stable/linux/x64/2026.910.101500/appimage',
+				url: 'https://web.fluxer.app/api/dl/desktop/stable/linux/x64/2026.910.101500/appimage',
 				sha256: null,
 			},
 		});
 
 		assert.equal(
 			getManualDownloadUrl(info),
-			'https://fluxer.cameronjolly.com/desktop/stable/linux/x64/2026.910.101500/appimage',
+			'https://web.fluxer.app/desktop/stable/linux/x64/2026.910.101500/appimage',
 		);
 	});
 
 	test('falls back to the response file urls in format order on macOS', () => {
 		const {getManualDownloadOptions, getManualDownloadUrl} = loadUpdaterDownloads({platform: 'darwin', arch: 'arm64'});
-		const dmg = {url: 'https://fluxer.cameronjolly.com/api/dl/desktop/stable/darwin/arm64/2026.910.101500/dmg', sha256: null};
-		const zip = {url: 'https://fluxer.cameronjolly.com/api/dl/desktop/stable/darwin/arm64/2026.910.101500/zip', sha256: null};
+		const dmg = {url: 'https://web.fluxer.app/api/dl/desktop/stable/darwin/arm64/2026.910.101500/dmg', sha256: null};
+		const zip = {url: 'https://web.fluxer.app/api/dl/desktop/stable/darwin/arm64/2026.910.101500/zip', sha256: null};
 
 		assert.equal(getManualDownloadOptions(latestInfo('2026.910.101500', {dmg, zip})).length, 0);
 		assert.equal(getManualDownloadUrl(latestInfo('2026.910.101500', {zip, dmg})), dmg.url);
@@ -189,7 +189,7 @@ describe('UpdaterDownloads manual download url', () => {
 
 	test('falls back to the setup file url on Windows', () => {
 		const {getManualDownloadOptions, getManualDownloadUrl} = loadUpdaterDownloads({platform: 'win32'});
-		const setup = {url: 'https://fluxer.cameronjolly.com/api/dl/desktop/stable/win32/x64/2026.910.101500/setup', sha256: null};
+		const setup = {url: 'https://web.fluxer.app/api/dl/desktop/stable/win32/x64/2026.910.101500/setup', sha256: null};
 
 		assert.equal(getManualDownloadOptions(latestInfo('2026.910.101500', {setup})).length, 0);
 		assert.equal(getManualDownloadUrl(latestInfo('2026.910.101500', {setup})), setup.url);
@@ -199,7 +199,7 @@ describe('UpdaterDownloads manual download url', () => {
 		const stable = loadUpdaterDownloads({channel: 'stable', platform: 'darwin'});
 		const canary = loadUpdaterDownloads({channel: 'canary', platform: 'win32'});
 
-		assert.equal(stable.getManualDownloadUrl(latestInfo('2026.910.101500')), 'https://fluxer.cameronjolly.com/download');
-		assert.equal(canary.getManualDownloadUrl(latestInfo('2026.910.101500')), 'https://fluxer.cameronjolly.com/download');
+		assert.equal(stable.getManualDownloadUrl(latestInfo('2026.910.101500')), 'https://web.fluxer.app/download');
+		assert.equal(canary.getManualDownloadUrl(latestInfo('2026.910.101500')), 'https://web.fluxer.app/download');
 	});
 });

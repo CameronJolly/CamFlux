@@ -630,6 +630,8 @@ export type TrayActionPayload =
 export interface ElectronAPI {
 	platform: NodeJS.Platform;
 	buildChannel: 'stable' | 'canary';
+	setAppUrlOverride: (url: string) => Promise<void>;
+	pingAppUrl: (url: string) => Promise<boolean>;
 	getDesktopInfo: () => Promise<DesktopInfo>;
 	getGpuInfo: () => Promise<GpuInfo>;
 	getDesktopWindowBehaviorSettings: () => Promise<DesktopWindowBehaviorSettings>;

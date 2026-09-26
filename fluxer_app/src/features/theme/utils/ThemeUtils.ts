@@ -5,10 +5,10 @@ import * as CodeLinkUtils from '@app/features/messaging/utils/CodeLinkUtils';
 import {buildMediaProxyURL} from '@app/features/messaging/utils/MediaProxyUtils';
 
 const OFFICIAL_THEME_URL_BASES = Object.freeze([
-	'https://fluxer.cameronjolly.com/theme',
-	'https://fluxer.cameronjolly.com/theme',
-	'https://fluxer.cameronjolly.com/theme',
-	'https://fluxer.cameronjolly.com/theme',
+	'https://web.fluxer.app/theme',
+	'https://web.fluxer.app/theme',
+	'https://web.fluxer.app/theme',
+	'https://web.fluxer.app/theme',
 ]);
 const appendThemePath = (endpoint: string | null | undefined): string | null => {
 	if (!endpoint) return null;

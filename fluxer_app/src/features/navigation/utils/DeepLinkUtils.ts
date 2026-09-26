@@ -206,7 +206,7 @@ export async function startDeepLinkHandling(): Promise<void> {
 	}
 }
 
-const OFFICIAL_INTERNAL_APP_HOSTS = ['fluxer.cameronjolly.com', 'fluxer.cameronjolly.com', 'fluxer.cameronjolly.com', 'fluxer.cameronjolly.com'];
+const OFFICIAL_INTERNAL_APP_HOSTS = ['web.fluxer.app', 'web.fluxer.app', 'web.fluxer.app', 'web.fluxer.app'];
 const getNormalizedWebAppHost = (): string => {
 	try {
 		return new URL(RuntimeConfig.webAppBaseUrl).host.toLowerCase();

@@ -336,6 +336,8 @@ applyStartupAccessibilitySettings();
 const api: ElectronAPI = {
 	platform: process.platform,
 	buildChannel: BUILD_CHANNEL,
+	setAppUrlOverride: (url: string): Promise<void> => ipcRenderer.invoke('set-app-url-override', url),
+	pingAppUrl: (url: string): Promise<boolean> => ipcRenderer.invoke('ping-app-url', url),
 	getDesktopInfo: (): Promise<DesktopInfo> => ipcRenderer.invoke('get-desktop-info'),
 	getGpuInfo: (): Promise<GpuInfo> => ipcRenderer.invoke('get-gpu-info'),
 	getAppMetrics: (): Promise<AppMetricsSnapshot> => ipcRenderer.invoke('get-app-metrics'),

@@ -6,11 +6,11 @@
 </p>
 
 <p align="center">
-  <a href="https://fluxer.cameronjolly.com/download">
+  <a href="https://web.fluxer.app/download">
     <img src="https://img.shields.io/badge/Download-fluxer.app-4641D9" alt="Download" /></a>
   <a href="https://docs.fluxer.app">
     <img src="https://img.shields.io/badge/Docs-docs.fluxer.app-blue" alt="Documentation" /></a>
-  <a href="https://fluxer.cameronjolly.com/donate">
+  <a href="https://web.fluxer.app/donate">
     <img src="https://img.shields.io/badge/Donate-fluxer.app%2Fdonate-brightgreen" alt="Donate" /></a>
   <a href="./LICENSE">
     <img src="https://img.shields.io/badge/License-AGPLv3-purple" alt="AGPLv3 License" /></a>
@@ -48,27 +48,27 @@ All four repositories serve stable and canary. The package is `fluxer` for stabl
 
 ### Flatpak
 
-Opening [this reference file][flatpak-ref] hands the install to your desktop software manager. Some desktops also accept `flatpak+https://fluxer.cameronjolly.com/flatpak/fluxer.flatpakref` pasted into the address bar.
+Opening [this reference file][flatpak-ref] hands the install to your desktop software manager. Some desktops also accept `flatpak+https://web.fluxer.app/flatpak/fluxer.flatpakref` pasted into the address bar.
 
 From a terminal:
 
 ```sh
-flatpak install https://fluxer.cameronjolly.com/flatpak/fluxer.flatpakref
+flatpak install https://web.fluxer.app/flatpak/fluxer.flatpakref
 ```
 
 ### Debian and Ubuntu
 
 ```sh
 sudo install -d -m 0755 /etc/apt/keyrings
-sudo curl -fsSL -o /etc/apt/keyrings/fluxer-archive-keyring.gpg https://fluxer.cameronjolly.com/keys/fluxer-archive-keyring.gpg
-sudo curl -fsSL -o /etc/apt/sources.list.d/fluxer.sources https://fluxer.cameronjolly.com/deb/fluxer.sources
+sudo curl -fsSL -o /etc/apt/keyrings/fluxer-archive-keyring.gpg https://web.fluxer.app/keys/fluxer-archive-keyring.gpg
+sudo curl -fsSL -o /etc/apt/sources.list.d/fluxer.sources https://web.fluxer.app/deb/fluxer.sources
 sudo apt update && sudo apt install fluxer
 ```
 
 ### Fedora and RHEL
 
 ```sh
-sudo curl -fsSL -o /etc/yum.repos.d/fluxer.repo https://fluxer.cameronjolly.com/rpm/fluxer.repo
+sudo curl -fsSL -o /etc/yum.repos.d/fluxer.repo https://web.fluxer.app/rpm/fluxer.repo
 sudo dnf install fluxer
 ```
 
@@ -80,7 +80,7 @@ The repository is signed, so pacman needs the key in its own keyring once:
 
 ```sh
 sudo pacman-key --init
-curl -fsSL -o /tmp/fluxer-archive-keyring.asc https://fluxer.cameronjolly.com/keys/fluxer-archive-keyring.asc
+curl -fsSL -o /tmp/fluxer-archive-keyring.asc https://web.fluxer.app/keys/fluxer-archive-keyring.asc
 sudo pacman-key --add /tmp/fluxer-archive-keyring.asc
 sudo pacman-key --lsign-key 09D01339EE128925F75E675C855C5BDE34D205D2
 ```
@@ -92,7 +92,7 @@ sudo tee -a /etc/pacman.conf >/dev/null <<'REPO'
 
 [fluxer]
 SigLevel = Required TrustedOnly
-Server = https://fluxer.cameronjolly.com/arch/$repo/os/$arch
+Server = https://web.fluxer.app/arch/$repo/os/$arch
 REPO
 sudo pacman -Syu fluxer
 ```
@@ -103,7 +103,7 @@ Full setup notes, including the canary channel, live in the [Linux repositories 
 
 ## Other ways to run it
 
-- [Open Fluxer in a browser](https://fluxer.cameronjolly.com) with no install at all.
+- [Open Fluxer in a browser](https://web.fluxer.app) with no install at all.
 - [Host your own instance][docs-selfhost] from this repository.
 
 ## Documentation
@@ -125,20 +125,20 @@ own terms, listed in
 Public availability of this repository does not grant trademark, brand, or
 endorsement rights.
 
-[win-setup-x64]: https://fluxer.cameronjolly.com/desktop/stable/win32/x64/latest/setup
-[win-setup-arm64]: https://fluxer.cameronjolly.com/desktop/stable/win32/arm64/latest/setup
-[win-portable-x64]: https://fluxer.cameronjolly.com/desktop/stable/win32/x64/latest/portable
-[win-portable-arm64]: https://fluxer.cameronjolly.com/desktop/stable/win32/arm64/latest/portable
-[mac-dmg]: https://fluxer.cameronjolly.com/desktop/stable/darwin/arm64/latest/dmg
-[linux-deb-x64]: https://fluxer.cameronjolly.com/desktop/stable/linux/x64/latest/deb
-[linux-deb-arm64]: https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/latest/deb
-[linux-rpm-x64]: https://fluxer.cameronjolly.com/desktop/stable/linux/x64/latest/rpm
-[linux-rpm-arm64]: https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/latest/rpm
-[linux-appimage-x64]: https://fluxer.cameronjolly.com/desktop/stable/linux/x64/latest/appimage
-[linux-appimage-arm64]: https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/latest/appimage
-[linux-targz-x64]: https://fluxer.cameronjolly.com/desktop/stable/linux/x64/latest/tar_gz
-[linux-targz-arm64]: https://fluxer.cameronjolly.com/desktop/stable/linux/arm64/latest/tar_gz
-[flatpak-ref]: https://fluxer.cameronjolly.com/flatpak/fluxer.flatpakref
+[win-setup-x64]: https://web.fluxer.app/desktop/stable/win32/x64/latest/setup
+[win-setup-arm64]: https://web.fluxer.app/desktop/stable/win32/arm64/latest/setup
+[win-portable-x64]: https://web.fluxer.app/desktop/stable/win32/x64/latest/portable
+[win-portable-arm64]: https://web.fluxer.app/desktop/stable/win32/arm64/latest/portable
+[mac-dmg]: https://web.fluxer.app/desktop/stable/darwin/arm64/latest/dmg
+[linux-deb-x64]: https://web.fluxer.app/desktop/stable/linux/x64/latest/deb
+[linux-deb-arm64]: https://web.fluxer.app/desktop/stable/linux/arm64/latest/deb
+[linux-rpm-x64]: https://web.fluxer.app/desktop/stable/linux/x64/latest/rpm
+[linux-rpm-arm64]: https://web.fluxer.app/desktop/stable/linux/arm64/latest/rpm
+[linux-appimage-x64]: https://web.fluxer.app/desktop/stable/linux/x64/latest/appimage
+[linux-appimage-arm64]: https://web.fluxer.app/desktop/stable/linux/arm64/latest/appimage
+[linux-targz-x64]: https://web.fluxer.app/desktop/stable/linux/x64/latest/tar_gz
+[linux-targz-arm64]: https://web.fluxer.app/desktop/stable/linux/arm64/latest/tar_gz
+[flatpak-ref]: https://web.fluxer.app/flatpak/fluxer.flatpakref
 [android-apk]: https://github.com/fluxerapp/flutter_client/releases
 [obtainium]: https://obtainium.imranr.dev/
 [ios-testflight]: https://testflight.apple.com/join/PKZR6pK9

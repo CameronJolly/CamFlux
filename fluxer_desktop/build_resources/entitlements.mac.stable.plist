@@ -25,8 +25,8 @@
     <string>3G5837T29K.app.fluxer</string>
     <key>com.apple.developer.associated-domains</key>
     <array>
-        <string>webcredentials:fluxer.cameronjolly.com</string>
-        <string>webcredentials:fluxer.cameronjolly.com</string>
+        <string>webcredentials:web.fluxer.app</string>
+        <string>webcredentials:web.fluxer.app</string>
     </array>
 </dict>
 </plist>

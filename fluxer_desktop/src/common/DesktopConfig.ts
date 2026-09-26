@@ -138,7 +138,11 @@ function sanitizeDesktopConfig(value: unknown): DesktopConfig {
 		return {};
 	}
 	const nextConfig: DesktopConfig = {...value};
-	delete nextConfig.app_url;
+	if (typeof value.app_url === 'string') {
+		nextConfig.app_url = value.app_url;
+	} else {
+		delete nextConfig.app_url;
+	}
 	const chromiumSwitches = sanitizeChromiumSwitchesSetting(value.chromiumSwitches);
 	if (chromiumSwitches) {
 		nextConfig.chromiumSwitches = chromiumSwitches;
@@ -311,15 +315,30 @@ export function getAppUrl(): string {
 	if (runtimeAppUrlOverride) {
 		return runtimeAppUrlOverride;
 	}
+	if (typeof config.app_url === 'string') {
+		return config.app_url;
+	}
 	return BUILD_CHANNEL === 'canary' ? CANARY_APP_URL : STABLE_APP_URL;
 }
 
 export function getCustomAppUrl(): string | null {
-	return runtimeAppUrlOverride;
+	if (runtimeAppUrlOverride) {
+		return runtimeAppUrlOverride;
+	}
+	if (typeof config.app_url === 'string') {
+		return config.app_url;
+	}
+	return null;
 }
 
 export function setRuntimeAppUrlOverride(appUrl: string | null): void {
 	runtimeAppUrlOverride = appUrl;
+	if (appUrl) {
+		config.app_url = appUrl;
+	} else {
+		delete config.app_url;
+	}
+	saveDesktopConfig();
 }
 
 export function getConfiguredChromiumSwitches(): ChromiumSwitchesSetting | undefined {
