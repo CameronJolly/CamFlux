@@ -17,9 +17,9 @@ test('loader resolves supported native filenames', () => {
 test('normalization creates spec-shaped client data and Windows transport bits', () => {
 	const challenge = Buffer.from([1, 2, 3, 4]);
 	const normalized = webauthnPure.normalizeCreateOptions({
-		origin: 'https://fluxer.cameronjolly.com/channels/@me',
+		origin: 'https://web.fluxer.app/channels/@me',
 		challenge,
-		rp: {id: 'fluxer.cameronjolly.com', name: 'Fluxer'},
+		rp: {id: 'web.fluxer.app', name: 'Fluxer'},
 		user: {id: Buffer.from('user'), name: 'name', displayName: 'Name'},
 		pubKeyCredParams: [{type: 'public-key', alg: -7}],
 		authenticatorSelection: {
@@ -30,7 +30,7 @@ test('normalization creates spec-shaped client data and Windows transport bits',
 		excludeCredentials: [{type: 'public-key', id: Buffer.from('cred'), transports: ['internal', 'hybrid']}],
 		attestation: 'none',
 	});
-	assert.equal(normalized.rpId, 'fluxer.cameronjolly.com');
+	assert.equal(normalized.rpId, 'web.fluxer.app');
 	assert.equal(normalized.authenticatorAttachment, 1);
 	assert.equal(normalized.userVerification, 1);
 	assert.equal(normalized.preferResidentKey, true);
@@ -39,7 +39,7 @@ test('normalization creates spec-shaped client data and Windows transport bits',
 	assert.deepEqual(JSON.parse(normalized.clientDataJSON.toString('utf8')), {
 		type: 'webauthn.create',
 		challenge: 'AQIDBA',
-		origin: 'https://fluxer.cameronjolly.com',
+		origin: 'https://web.fluxer.app',
 		crossOrigin: false,
 	});
 });

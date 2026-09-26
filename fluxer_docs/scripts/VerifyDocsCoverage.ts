@@ -181,7 +181,7 @@ const EXEMPTION_RULES: ReadonlyArray<ExemptionRule> = [
 	{
 		name: 'deprecated desktop download redirect',
 		justification:
-			'every /dl route is an undocumented deprecated redirect onto fluxer.cameronjolly.com, kept only for desktop clients already in the field. Nothing current calls one, so documenting them would advertise a path new callers must not use',
+			'every /dl route is an undocumented deprecated redirect onto web.fluxer.app, kept only for desktop clients already in the field. Nothing current calls one, so documenting them would advertise a path new callers must not use',
 		anchors: [
 			{
 				file: 'fluxer_api/src/api/download/DownloadController.ts',

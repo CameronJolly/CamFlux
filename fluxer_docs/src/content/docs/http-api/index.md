@@ -185,7 +185,7 @@ The paths below are readable from any origin. `/v1/webhooks/{webhook_id}/{token}
 `Access-Control-Expose-Headers` is the value `X-Fluxer-Version, ETag`. Every other Fluxer response header, the rate limit headers and `X-Request-ID` included, is hidden from cross-origin script. `Access-Control-Allow-Headers` is `Content-Type, Authorization, X-Requested-With, Accept-Language, X-Request-ID, If-None-Match`, so a cross-origin client revalidates an [ETag](/http-api/experiments/#get-experiment-assignments) it was served.
 
 :::caution[Same-host mutations require a matching origin]
-A production deployment rejects a non-`GET` request whose `Host` is `fluxer.cameronjolly.com` or `fluxer.cameronjolly.com` unless its `Origin` is exactly `https://` followed by that same host, returning 403 `INVALID_API_ORIGIN`. A request sent to the API host is unaffected.
+A production deployment rejects a non-`GET` request whose `Host` is `web.fluxer.app` or `web.fluxer.app` unless its `Origin` is exactly `https://` followed by that same host, returning 403 `INVALID_API_ORIGIN`. A request sent to the API host is unaffected.
 :::
 
 <a id="error-response"></a>

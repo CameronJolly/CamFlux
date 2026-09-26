@@ -13,7 +13,7 @@ pkgver="${FLUXER_VERSION:?FLUXER_VERSION must be set}"
 pkgrel=1
 pkgdesc='Instant messaging and VoIP application'
 arch=('x86_64' 'aarch64')
-url='https://fluxer.cameronjolly.com'
+url='https://web.fluxer.app'
 license=('AGPL-3.0-or-later')
 depends=(
 	'alsa-lib'

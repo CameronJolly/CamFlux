@@ -341,6 +341,8 @@ export interface AppMetricsSnapshot {
 export interface ElectronAPI {
 	platform: 'darwin' | 'win32' | 'linux' | string;
 	buildChannel: 'stable' | 'canary';
+	setAppUrlOverride(url: string): Promise<void>;
+	pingAppUrl(url: string): Promise<boolean>;
 	openExternal(url: string): Promise<void>;
 	downloadFile(url: string, suggestedName: string, sha256?: string | null): Promise<DownloadResult>;
 	onUpdaterEvent(callback: (event: UpdaterEvent) => void): () => void;
