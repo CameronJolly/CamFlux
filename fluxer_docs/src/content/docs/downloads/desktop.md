@@ -4,7 +4,7 @@ title: Desktop builds
 description: Paths for desktop installers, checksums and the update feeds each platform reads.
 ---
 
-Every desktop path below is served from `https://fluxer.cameronjolly.com` and is built from four coordinates.
+Every desktop path below is served from `https://web.fluxer.app` and is built from four coordinates.
 
 | Coordinate | Values |
 | --- | --- |

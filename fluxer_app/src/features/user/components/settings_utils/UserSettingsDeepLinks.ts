@@ -85,7 +85,7 @@ export function buildUserSettingsDeepLink(tabType: UserSettingsTabType, sectionI
 
 export function parseUserSettingsDeepLinkPath(path: string): UserSettingsDeepLinkTarget | null {
 	try {
-		const parsed = new URL(path, 'https://fluxer.cameronjolly.com');
+		const parsed = new URL(path, 'https://web.fluxer.app');
 		const normalizedPath = parsed.pathname.replace(/\/+$/, '') || '/';
 		if (normalizedPath !== USER_SETTINGS_DEEP_LINK_PATH) return null;
 		const tab = parsed.searchParams.get('tab');

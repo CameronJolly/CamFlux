@@ -6,11 +6,11 @@
 </p>
 
 <p align="center">
-  <a href="https://fluxer.cameronjolly.com/download">
+  <a href="https://web.fluxer.app/download">
     <img src="https://img.shields.io/badge/Download-fluxer.app-4641D9" alt="Download" /></a>
   <a href="https://docs.fluxer.app">
     <img src="https://img.shields.io/badge/Docs-docs.fluxer.app-blue" alt="Documentation" /></a>
-  <a href="https://fluxer.cameronjolly.com/donate">
+  <a href="https://web.fluxer.app/donate">
     <img src="https://img.shields.io/badge/Donate-fluxer.app%2Fdonate-brightgreen" alt="Donate" /></a>
   <a href="./LICENSE">
     <img src="https://img.shields.io/badge/License-AGPLv3-purple" alt="AGPLv3 License" /></a>
@@ -49,7 +49,7 @@ On Linux, prefer a repository over a single file so Fluxer updates with the rest
 
 ## Linux package repositories
 
-Every repository serves both channels. The package is `fluxer` for stable, `fluxer-canary` for canary.
+The package is `fluxer` for stable and `fluxer-canary` for canary. apt and dnf subscribe to one channel per entry file. pacman and Flatpak serve both from one repository.
 
 ### Flatpak
 
@@ -59,28 +59,44 @@ Stable is on [Flathub][flathub], the easiest route on most desktops:
 flatpak install flathub app.fluxer.Fluxer
 ```
 
-Flathub has stable only. For canary, or to use Fluxer's own repository, open [this reference file][flatpak-ref] and your software manager takes over. Some desktops also accept `flatpak+https://pkgs.fluxer.com/flatpak/fluxer.flatpakref` in the address bar.
+Flathub has stable only. To use Fluxer's own repository, open [the stable][flatpak-ref] or [the canary][flatpak-canary-ref] reference file and your software manager takes over. Some desktops also accept `flatpak+https://pkgs.fluxer.com/flatpak/fluxer.flatpakref` in the address bar.
 
 From a terminal:
 
 ```sh
-flatpak install https://fluxer.cameronjolly.com/flatpak/fluxer.flatpakref
+flatpak install https://web.fluxer.app/flatpak/fluxer.flatpakref
 ```
 
 ### Debian and Ubuntu
 
 ```sh
 sudo install -d -m 0755 /etc/apt/keyrings
-sudo curl -fsSL -o /etc/apt/keyrings/fluxer-archive-keyring.gpg https://fluxer.cameronjolly.com/keys/fluxer-archive-keyring.gpg
-sudo curl -fsSL -o /etc/apt/sources.list.d/fluxer.sources https://fluxer.cameronjolly.com/deb/fluxer.sources
+sudo curl -fsSL -o /etc/apt/keyrings/fluxer-archive-keyring.gpg https://web.fluxer.app/keys/fluxer-archive-keyring.gpg
+sudo curl -fsSL -o /etc/apt/sources.list.d/fluxer.sources https://web.fluxer.app/deb/fluxer.sources
 sudo apt update && sudo apt install fluxer
 ```
+
+For canary, use the canary entry file and package.
+
+```sh
+sudo curl -fsSL -o /etc/apt/sources.list.d/fluxer-canary.sources https://pkgs.fluxer.com/deb/fluxer-canary.sources
+sudo apt update && sudo apt install fluxer-canary
+```
+
+A `.deb` installed from a download only updates once its channel's entry is added.
 
 ### Fedora and RHEL
 
 ```sh
-sudo curl -fsSL -o /etc/yum.repos.d/fluxer.repo https://fluxer.cameronjolly.com/rpm/fluxer.repo
+sudo curl -fsSL -o /etc/yum.repos.d/fluxer.repo https://web.fluxer.app/rpm/fluxer.repo
 sudo dnf install fluxer
+```
+
+For canary, use the canary entry file and package.
+
+```sh
+sudo curl -fsSL -o /etc/yum.repos.d/fluxer-canary.repo https://pkgs.fluxer.com/rpm/fluxer-canary.repo
+sudo dnf install fluxer-canary
 ```
 
 RHEL, Rocky, Alma and CentOS Stream need `sudo dnf install epel-release` first, because their base repositories lack `libXScrnSaver`. Fedora does not.
@@ -91,7 +107,7 @@ The repository is signed, so pacman needs the key once:
 
 ```sh
 sudo pacman-key --init
-curl -fsSL -o /tmp/fluxer-archive-keyring.asc https://fluxer.cameronjolly.com/keys/fluxer-archive-keyring.asc
+curl -fsSL -o /tmp/fluxer-archive-keyring.asc https://web.fluxer.app/keys/fluxer-archive-keyring.asc
 sudo pacman-key --add /tmp/fluxer-archive-keyring.asc
 sudo pacman-key --lsign-key 09D01339EE128925F75E675C855C5BDE34D205D2
 ```
@@ -103,7 +119,7 @@ sudo tee -a /etc/pacman.conf >/dev/null <<'REPO'
 
 [fluxer]
 SigLevel = Required TrustedOnly
-Server = https://fluxer.cameronjolly.com/arch/$repo/os/$arch
+Server = https://web.fluxer.app/arch/$repo/os/$arch
 REPO
 sudo pacman -Syu fluxer
 ```

@@ -95,7 +95,7 @@ async function buildTargetSpec(basePath: string, target: GenerateTarget): Promis
 		title: 'Fluxer API',
 		version: '1.0.0',
 		description: API_DESCRIPTION,
-		serverUrl: 'https://fluxer.cameronjolly.com/v1',
+		serverUrl: 'https://web.fluxer.app/v1',
 		routeScope: target,
 		schemaTarget: target === 'admin' ? 'openapi-3.0' : 'draft-2020-12',
 	});

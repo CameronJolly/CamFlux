@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import {BUILD_CHANNEL} from '@electron/common/BuildChannel';
+import {PASSKEY_RP_IDS} from '@electron/common/Constants';
 import type {
 	AppMetricsSnapshot,
 	ClipboardWriteFileOptions,
@@ -336,6 +337,8 @@ applyStartupAccessibilitySettings();
 const api: ElectronAPI = {
 	platform: process.platform,
 	buildChannel: BUILD_CHANNEL,
+	setAppUrlOverride: (url: string): Promise<void> => ipcRenderer.invoke('set-app-url-override', url),
+	pingAppUrl: (url: string): Promise<boolean> => ipcRenderer.invoke('ping-app-url', url),
 	getDesktopInfo: (): Promise<DesktopInfo> => ipcRenderer.invoke('get-desktop-info'),
 	getGpuInfo: (): Promise<GpuInfo> => ipcRenderer.invoke('get-gpu-info'),
 	getAppMetrics: (): Promise<AppMetricsSnapshot> => ipcRenderer.invoke('get-app-metrics'),
@@ -451,6 +454,11 @@ const api: ElectronAPI = {
 		options: PublicKeyCredentialCreationOptionsJSON,
 		requestContext?: {pin?: string},
 	): Promise<RegistrationResponseJSON> => ipcRenderer.invoke('passkey-register', options, requestContext),
+	passkeyRpIds: PASSKEY_RP_IDS,
+	domainMigration: {
+		version: 1,
+		setAppOrigin: (origin: string): Promise<void> => ipcRenderer.invoke('domain-migration:set-app-origin', origin),
+	},
 	toggleDevTools: (): void => {
 		ipcRenderer.send('toggle-devtools');
 	},

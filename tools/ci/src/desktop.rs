@@ -33,7 +33,7 @@ use tempfile::TempDir;
 use walkdir::WalkDir;
 use zip::write::SimpleFileOptions;
 
-const PACKAGE_ORIGIN_BASE: &str = "https://fluxer.cameronjolly.com";
+const PACKAGE_ORIGIN_BASE: &str = "https://web.fluxer.app";
 const PNPM_VERSION: &str = "12.4.2";
 const RUST_TOOLCHAIN: &str = "1.98.1";
 const LINUX_PIPEWIRE_VERSION: &str = "0.3.65";
@@ -4588,7 +4588,7 @@ export const CHANNEL_DISPLAY_NAME = BUILD_CHANNEL;\n"
 
         assert_eq!(
             releases["releases"][0]["updateTo"]["url"],
-            "https://fluxer.cameronjolly.com/desktop/canary/darwin/arm64/Fluxer-2026.520.1-arm64.zip"
+            "https://web.fluxer.app/desktop/canary/darwin/arm64/Fluxer-2026.520.1-arm64.zip"
         );
         assert!(temp.path().join("releases.json").exists());
     }

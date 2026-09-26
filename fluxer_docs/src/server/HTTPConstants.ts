@@ -42,7 +42,7 @@ export const HTTPHeader = Object.freeze({
 	X_FRAME_OPTIONS: 'X-Frame-Options',
 } as const);
 
-export const OUTBOUND_USER_AGENT = 'Fluxer (https://fluxer.cameronjolly.com)';
+export const OUTBOUND_USER_AGENT = 'Fluxer (https://web.fluxer.app)';
 
 export const CanonicalNetworkProtocol = Object.freeze({
 	HTTP: 'http:',

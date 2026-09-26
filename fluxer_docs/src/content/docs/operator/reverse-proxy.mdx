@@ -5,7 +5,7 @@ description: Serving a Fluxer instance from nginx, Caddy, Traefik, HAProxy, Apac
 ---
 
 :::tip[Plutonium and donations fund Fluxer]
-We are grateful to everyone supporting the project through [Fluxer Plutonium](https://fluxer.cameronjolly.com/plutonium) or [donations](https://fluxer.cameronjolly.com/donate). All of our code is free and open source on [GitHub](https://github.com/fluxerapp/fluxer). The Operator Pass is coming, and adds a direct line to the team for help and feedback.
+We are grateful to everyone supporting the project through [Fluxer Plutonium](https://web.fluxer.app/plutonium) or [donations](https://web.fluxer.app/donate). All of our code is free and open source on [GitHub](https://github.com/fluxerapp/fluxer). The Operator Pass is coming, and adds a direct line to the team for help and feedback.
 :::
 
 Fluxer runs behind any proxy that terminates TLS and forwards WebSocket upgrades.
@@ -402,7 +402,7 @@ Pass the query string on `/gateway` through untouched. Clients always send `?v=`
 
 Apple and Google require the association files at those fixed paths for saved-password autofill and app links. A proxy that forwards all paths needs no extra rules. Include them explicitly if you use a path allowlist.
 
-`/_metrics` on the API, Media Proxy, and Gateway, plus `/_health/ready`, `/_health/drain`, and `/_health/undrain` on the Gateway, are gated to loopback and are unreachable through any proxy. The probes that work through a proxy are `/_health`, `/api/_health`, `/gateway/_health`, and `/media/_health`.
+`/_metrics` on the API, Media Proxy, Gateway, and push service, plus `/_health/ready`, `/_health/drain`, and `/_health/undrain` on the Gateway, are gated to loopback and are unreachable through any proxy. The push service has no public path. The probes that work through a proxy are `/_health`, `/api/_health`, `/gateway/_health`, and `/media/_health`.
 
 ## Trusted proxies
 

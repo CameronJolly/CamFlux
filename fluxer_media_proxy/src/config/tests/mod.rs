@@ -277,7 +277,7 @@ fn production_media_proxy_release_env_loads() {
         ("FLUXER_MEDIA_PROXY_CORS_MODE", "enforce"),
         (
             "FLUXER_MEDIA_PROXY_CORS_ALLOWED_ORIGINS",
-            "https://fluxer.cameronjolly.com,https://fluxer.cameronjolly.com",
+            "https://web.fluxer.app,https://web.fluxer.app",
         ),
     ]))
     .unwrap();
@@ -286,7 +286,7 @@ fn production_media_proxy_release_env_loads() {
     assert_eq!(DeploymentMode::Mp, cfg.mode);
     assert_eq!(PolicyMode::Enforce, cfg.cors.mode);
     assert_eq!(
-        vec!["https://fluxer.cameronjolly.com", "https://fluxer.cameronjolly.com"],
+        vec!["https://web.fluxer.app", "https://web.fluxer.app"],
         allowed_origins(&cfg)
     );
     assert!(cfg.read_only);
@@ -319,7 +319,7 @@ fn production_static_proxy_release_env_loads() {
         ("FLUXER_MEDIA_PROXY_CORS_MODE", "enforce"),
         (
             "FLUXER_MEDIA_PROXY_CORS_ALLOWED_ORIGINS",
-            "https://fluxer.cameronjolly.com,https://fluxer.cameronjolly.com",
+            "https://web.fluxer.app,https://web.fluxer.app",
         ),
     ]))
     .unwrap();

@@ -102,8 +102,6 @@ const MAIN_SPEC_EXEMPT = new Map<string, {file: string; anchor: string; reason: 
 
 const DELIBERATELY_UNDOCUMENTED = new Map([
 	['GET /users/@me/mobile-devices', 'mobile notifications, backported separately'],
-	['POST /users/@me/mobile-devices', 'mobile notifications, backported separately'],
-	['POST /users/@me/mobile-devices/unregister', 'mobile notifications, backported separately'],
 	['DELETE /users/@me/mobile-devices/{}', 'mobile notifications, backported separately'],
 	['GET /users/@me/push/subscriptions', 'push API, backported separately'],
 	['POST /users/@me/push/subscribe', 'push API, backported separately'],
@@ -183,7 +181,7 @@ const EXEMPTION_RULES: ReadonlyArray<ExemptionRule> = [
 	{
 		name: 'deprecated desktop download redirect',
 		justification:
-			'every /dl route is an undocumented deprecated redirect onto fluxer.cameronjolly.com, kept only for desktop clients already in the field. Nothing current calls one, so documenting them would advertise a path new callers must not use',
+			'every /dl route is an undocumented deprecated redirect onto web.fluxer.app, kept only for desktop clients already in the field. Nothing current calls one, so documenting them would advertise a path new callers must not use',
 		anchors: [
 			{
 				file: 'fluxer_api/src/api/download/DownloadController.ts',

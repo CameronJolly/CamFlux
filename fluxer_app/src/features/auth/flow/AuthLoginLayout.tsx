@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import {PRODUCT_NAME} from '@app/features/app/config/I18nDisplayConstants';
+import {detectDomainMigrationInstallKind} from '@app/features/app/domain_migration/DomainMigrationBrowser';
 import RuntimeConfig from '@app/features/app/state/RuntimeConfig';
 import * as AuthenticationCommands from '@app/features/auth/commands/AuthenticationCommands';
 import {AccountSelector} from '@app/features/auth/components/accounts/AccountSelector';
 import styles from '@app/features/auth/components/pages/LoginPage.module.css';
+import FormField from '@app/features/auth/flow/AuthFormField';
 import {AuthRouterLink} from '@app/features/auth/flow/AuthRouterLink';
 import {
 	AuthSsoPanel,
@@ -17,18 +20,28 @@ import AuthLoginPasskeyActions, {
 	AuthLoginDivider,
 } from '@app/features/auth/flow/auth_login_core/AuthLoginPasskeyActions';
 import {isApprovalFlowMode, useDesktopHandoffFlow} from '@app/features/auth/flow/auth_login_core/useDesktopHandoffFlow';
+import {
+	SIGN_IN_WITH_OLD_APP_DESCRIPTOR,
+	showBrowserLoginHandoffModal,
+} from '@app/features/auth/flow/BrowserLoginHandoffModal';
 import DesktopHandoffAccountSelector from '@app/features/auth/flow/DesktopHandoffAccountSelector';
 import {ConnectedHandoffApprovalFlow} from '@app/features/auth/flow/HandoffApprovalFlow';
 import IpAuthorizationScreen from '@app/features/auth/flow/IpAuthorizationScreen';
 import {useAuthCardPresentation} from '@app/features/auth/flow/useAuthCardPresentation';
 import {useLoginFormController} from '@app/features/auth/hooks/useLoginFlow';
+import {usePasskeyBridgeReturn} from '@app/features/auth/passkey_migration/usePasskeyBridgeReturn';
 import AccountManager from '@app/features/auth/state/AccountManager';
 import {
 	type IpAuthorizationChallenge,
 	type LoginSuccessPayload,
 	startSsoLogin,
 } from '@app/features/auth/state/AuthFlow';
-import {NEED_ACCOUNT_DESCRIPTOR, SIGN_IN_DESCRIPTOR} from '@app/features/i18n/utils/CommonMessageDescriptors';
+import {shouldOfferOldAppSignIn} from '@app/features/auth/utils/OldAppSignIn';
+import {
+	COULDN_T_VERIFY_WITH_PASSKEY_DESCRIPTOR,
+	NEED_ACCOUNT_DESCRIPTOR,
+	SIGN_IN_DESCRIPTOR,
+} from '@app/features/i18n/utils/CommonMessageDescriptors';
 import * as RouterUtils from '@app/features/navigation/utils/RouterUtils';
 import {useLocation} from '@app/features/platform/components/router/RouterReact';
 import {type Account, SessionExpiredError} from '@app/features/platform/state/AuthSession';
@@ -63,6 +76,11 @@ const WELCOME_BACK_DESCRIPTOR = msg({
 const FORGOT_PASSWORD_DESCRIPTOR = msg({
 	message: 'Forgot your password?',
 	comment: 'Authentication link label that opens password recovery.',
+});
+const OLD_APP_SIGN_IN_HINT_DESCRIPTOR = msg({
+	message: 'Approve this app from the {productName} app you already use. No password needed.',
+	comment:
+		'Hint under the sign-in option on fluxer.com that pairs a newly installed app with the old installed app. productName is the app name.',
 });
 const SIGN_IN_VIA_BROWSER_DESCRIPTOR = msg({
 	message: 'Sign in via browser',
@@ -133,6 +151,36 @@ export const AuthLoginLayout = observer(function AuthLoginLayout({
 	const [isSwitching, setIsSwitching] = useState(false);
 	const [switchError, setSwitchError] = useState<string | null>(null);
 	const [prefillEmail, setPrefillEmail] = useState<string | null>(() => initialEmail ?? null);
+	const [customUrl, setCustomUrl] = useState('');
+	const [customUrlError, setCustomUrlError] = useState<string | null>(null);
+	const [isSwappingUrl, setIsSwappingUrl] = useState(false);
+
+	const handleSwapUrl = useCallback(async () => {
+		if (!customUrl) return;
+		setCustomUrlError(null);
+		setIsSwappingUrl(true);
+		try {
+			let urlToTest = customUrl;
+			if (!urlToTest.startsWith('http://') && !urlToTest.startsWith('https://')) {
+				urlToTest = 'https://' + urlToTest;
+			}
+			const url = new URL(urlToTest);
+			if (window.electron?.pingAppUrl) {
+				const isReachable = await window.electron.pingAppUrl(url.origin);
+				if (!isReachable) throw new Error('Unreachable');
+			} else {
+				await fetch(url.origin + '/login', {mode: 'no-cors'});
+			}
+			if (window.electron?.setAppUrlOverride) {
+				await window.electron.setAppUrlOverride(url.origin);
+			}
+			window.location.assign(url.origin + '/login');
+		} catch (error) {
+			setCustomUrlError('Not a valid URL or server is unreachable.');
+			setIsSwappingUrl(false);
+		}
+	}, [customUrl]);
+
 	const ssoRedirectPath = desktopHandoff ? `${location.pathname}${location.search}` : redirectPath;
 	const showLoginFormForAccount = useCallback((account: Account, message?: string | null) => {
 		setShowAccountSelector(false);
@@ -162,8 +210,39 @@ export const AuthLoginLayout = observer(function AuthLoginLayout({
 				setIpAuthChallenge(challenge);
 			},
 		});
+	const isPasskeyBridgeRedeeming = usePasskeyBridgeReturn({
+		redirectPath,
+		onLoginSuccess: handleLoginSuccess,
+		onRequireMfa: AuthenticationCommands.setMfaTicket,
+		onFailure: () => {
+			setSwitchError(i18n._(COULDN_T_VERIFY_WITH_PASSKEY_DESCRIPTOR));
+		},
+	});
 	const showBrowserPasskey = IS_DEV || isDesktop();
-	const passkeyControlsDisabled = isLoading || Boolean(form.isSubmitting) || isPasskeyLoading;
+	const passkeyControlsDisabled =
+		isLoading || Boolean(form.isSubmitting) || isPasskeyLoading || isPasskeyBridgeRedeeming;
+	const offerOldAppSignIn = useMemo(
+		() =>
+			!desktopHandoff &&
+			shouldOfferOldAppSignIn({
+				origin: window.location.origin,
+				installKind: detectDomainMigrationInstallKind(),
+				hasStoredAccounts,
+			}),
+		[desktopHandoff, hasStoredAccounts],
+	);
+	const handleOldAppSignIn = useCallback(() => {
+		showBrowserLoginHandoffModal(
+			async (payload) => {
+				await handleLoginSuccess(payload);
+				if (redirectPath) {
+					RouterUtils.replaceWith(redirectPath);
+				}
+			},
+			undefined,
+			'old_app',
+		);
+	}, [handleLoginSuccess, redirectPath]);
 	const handleIpAuthorizationComplete = useCallback(
 		async (payload: LoginSuccessPayload) => {
 			await handleLoginSuccess(payload);
@@ -327,6 +406,21 @@ export const AuthLoginLayout = observer(function AuthLoginLayout({
 						{switchError}
 					</div>
 				) : null}
+				{offerOldAppSignIn ? (
+					<div className={styles.ssoBlock} data-flx="auth.flow.auth-login-layout.old-app-block">
+						<Button
+							fitContainer
+							onClick={handleOldAppSignIn}
+							type="button"
+							data-flx="auth.flow.auth-login-layout.button.old-app-sign-in"
+						>
+							{i18n._(SIGN_IN_WITH_OLD_APP_DESCRIPTOR, {productName: PRODUCT_NAME})}
+						</Button>
+						<div className={styles.ssoSubtitle} data-flx="auth.flow.auth-login-layout.old-app-subtitle">
+							{i18n._(OLD_APP_SIGN_IN_HINT_DESCRIPTOR, {productName: PRODUCT_NAME})}
+						</div>
+					</div>
+				) : null}
 				{ssoConfig?.enabled ? (
 					<div className={styles.ssoBlock} data-flx="auth.flow.auth-login-layout.sso-block">
 						<Button
@@ -357,8 +451,24 @@ export const AuthLoginLayout = observer(function AuthLoginLayout({
 							</AuthRouterLink>
 						) : null
 					}
-					disableSubmit={isPasskeyLoading}
+					disableSubmit={isPasskeyLoading || isPasskeyBridgeRedeeming}
 					data-flx="auth.flow.auth-login-layout.auth-login-email-password-form"
+					extraFields={
+						isDesktop() ? (
+							<div style={{marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px'}}>
+								<FormField
+									name="customUrl"
+									label="Custom Server URL"
+									value={customUrl}
+									onChange={setCustomUrl}
+									error={customUrlError || undefined}
+								/>
+								<Button type="button" fitContainer onClick={handleSwapUrl} disabled={isSwappingUrl || !customUrl}>
+									Swap to Custom URL
+								</Button>
+							</div>
+						) : undefined
+					}
 				/>
 				<AuthLoginDivider
 					classes={{

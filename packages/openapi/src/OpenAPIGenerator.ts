@@ -41,7 +41,7 @@ function createGeneratorSettings(options: OpenAPIGeneratorOptions): GeneratorSet
 		title: options.title ?? 'Fluxer API',
 		version: options.version ?? '1.0.0',
 		description: options.description ?? 'The Fluxer API',
-		serverUrl: options.serverUrl ?? 'https://fluxer.cameronjolly.com',
+		serverUrl: options.serverUrl ?? 'https://web.fluxer.app',
 		routeScope: options.routeScope ?? 'public',
 		schemaTarget: options.schemaTarget ?? 'draft-2020-12',
 	};

@@ -123,6 +123,12 @@ fn app_wasm_artifacts(root: &Path) -> Vec<PathBuf> {
         app_dir.join("pkgs/libfluxcore/libfluxcore_bg.wasm"),
         app_dir.join("pkgs/libfluxcore/libfluxcore_bg.wasm.d.ts"),
         app_dir.join("pkgs/libfluxcore/package.json"),
+        app_dir.join("pkgs/libfluxwebp/libfluxwebp.js"),
+        app_dir.join("pkgs/libfluxwebp/libfluxwebp.d.ts"),
+        app_dir.join("pkgs/libfluxwebp/libfluxwebp_bg.wasm"),
+        app_dir.join("pkgs/libfluxwebp/libfluxwebp_bg.wasm.d.ts"),
+        app_dir.join("pkgs/libfluxwebp/libfluxwebp_simd_bg.wasm"),
+        app_dir.join("pkgs/libfluxwebp/libfluxwebp_simd_bg.wasm.d.ts"),
         app_dir.join("src/features/messaging/utils/markdown/parser/MarkdownParserWasmBytes.ts"),
     ]
 }
@@ -333,7 +339,7 @@ mod tests {
         const REQUIRED: [&str; 9] = [
             "LABEL org.opencontainers.image.licenses=\"AGPL-3.0-or-later\"",
             "LABEL org.opencontainers.image.vendor=\"Fluxer\"",
-            "LABEL org.opencontainers.image.url=\"https://fluxer.cameronjolly.com\"",
+            "LABEL org.opencontainers.image.url=\"https://web.fluxer.app\"",
             "LABEL org.opencontainers.image.documentation=\"https://docs.fluxer.app\"",
             "LABEL org.opencontainers.image.source=\"https://github.com/fluxerapp/fluxer\"",
             "LABEL org.opencontainers.image.version=\"${BUILD_VERSION}\"",
@@ -382,6 +388,11 @@ mod tests {
                 "fluxer_messages",
                 "fluxer-messages",
                 include_str!("../../../fluxer_messages/Dockerfile"),
+            ),
+            (
+                "fluxer_push",
+                "fluxer-push",
+                include_str!("../../../fluxer_push/Dockerfile"),
             ),
             (
                 "fluxer_snowflakes",

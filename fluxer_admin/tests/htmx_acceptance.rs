@@ -465,7 +465,7 @@ async fn mutating_admin_pages_render_usable_csrf_tokens() {
                 "/instance-config?action=update_gateway_rollout",
                 "/instance-config?action=update_sso",
                 "/instance-config?action=update_voice_noise_suppression",
-                "/instance-config?action=update_screen_share_delivery",
+                "/instance-config?action=update_domain_migration",
                 "/instance-config?action=update_experiment_delivery",
             ][..],
         ),
@@ -817,6 +817,9 @@ async fn spawn_mock_api() -> String {
 
 async fn mock_api(method: Method, uri: Uri) -> Response {
     let path = uri.path().to_owned();
+    if method == Method::PATCH && path == "/admin/instance/config" {
+        return json_response(instance_config());
+    }
     match (method, path.as_str()) {
         (Method::GET, "/admin/users/@me") => json_response(json!({ "user": admin_user() })),
         (Method::GET, "/admin/api-keys") => json_response(json!([])),
@@ -1197,13 +1200,15 @@ fn instance_config() -> Value {
             "guild_overrides": [],
             "suppression_strength": 80
         },
-        "screen_share_delivery": {
+        "domain_migration": {
             "enabled": false,
             "config_version": 0,
             "rollout_basis_points": 0,
-            "rollout_salt": "screen-share-delivery-v1",
+            "rollout_salt": "domain-migration-v1",
             "included_user_ids": [],
-            "excluded_user_ids": []
+            "excluded_user_ids": [],
+            "anonymous_rollout_basis_points": 0,
+            "standalone_forwarding": false
         },
         "experiment_delivery": {
             "poll_interval_seconds": 300,

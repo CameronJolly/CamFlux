@@ -2,7 +2,7 @@
 
 import {posix} from 'node:path';
 
-export const PKGS_BASE_URL = 'https://fluxer.cameronjolly.com';
+export const PKGS_BASE_URL = 'https://web.fluxer.app';
 export const DOWNLOAD_PREFIX = '/dl';
 export const DESKTOP_REDIRECT_PREFIX = `${DOWNLOAD_PREFIX}/desktop`;
 
