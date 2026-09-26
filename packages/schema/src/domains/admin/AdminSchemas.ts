@@ -12,13 +12,17 @@ import {AdminArchiveResponseSchema} from '@fluxer/schema/src/domains/admin/Admin
 import {GuildAdminResponse} from '@fluxer/schema/src/domains/admin/AdminGuildSchemas';
 import {UserAdminResponseSchema} from '@fluxer/schema/src/domains/admin/AdminUserSchemas';
 import {
+	DomainMigrationConfigResponse,
+	DomainMigrationConfigUpdateRequest,
+} from '@fluxer/schema/src/domains/admin/DomainMigrationSchemas';
+import {
 	GatewayRolloutConfigResponse,
 	GatewayRolloutConfigUpdateRequest,
 } from '@fluxer/schema/src/domains/admin/GatewayRolloutSchemas';
 import {
-	ScreenShareDeliveryConfigResponse,
-	ScreenShareDeliveryConfigUpdateRequest,
-} from '@fluxer/schema/src/domains/admin/ScreenShareDeliverySchemas';
+	PushServiceDeliveryConfigResponse,
+	PushServiceDeliveryConfigUpdateRequest,
+} from '@fluxer/schema/src/domains/admin/PushServiceDeliverySchemas';
 import {
 	VoiceNoiseSuppressionConfigResponse,
 	VoiceNoiseSuppressionConfigUpdateRequest,
@@ -648,7 +652,8 @@ export const InstanceConfigResponse = z.object({
 	sso: SsoConfigResponse,
 	gateway_rollout: GatewayRolloutConfigResponse,
 	voice_noise_suppression: VoiceNoiseSuppressionConfigResponse,
-	screen_share_delivery: ScreenShareDeliveryConfigResponse,
+	push_service_delivery: PushServiceDeliveryConfigResponse,
+	domain_migration: DomainMigrationConfigResponse,
 	experiment_delivery: ExperimentDeliveryConfigResponse,
 	registration: InstanceRegistrationResponse,
 	self_hosted: z.boolean(),
@@ -685,7 +690,8 @@ const InstancePolicyUpdateSchema = z.object({
 export const InstanceConfigUpdateRequest = z.object({
 	gateway_rollout: GatewayRolloutConfigUpdateRequest.nullish(),
 	voice_noise_suppression: VoiceNoiseSuppressionConfigUpdateRequest.nullish(),
-	screen_share_delivery: ScreenShareDeliveryConfigUpdateRequest.nullish(),
+	push_service_delivery: PushServiceDeliveryConfigUpdateRequest.nullish(),
+	domain_migration: DomainMigrationConfigUpdateRequest.nullish(),
 	experiment_delivery: ExperimentDeliveryConfigUpdateRequest.nullish(),
 	registration: z
 		.object({

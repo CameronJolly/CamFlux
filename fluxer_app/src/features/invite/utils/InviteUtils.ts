@@ -13,9 +13,9 @@ import {compareChannelOrdering} from '@fluxer/schema/src/domains/channel/GuildCh
 
 const OFFICIAL_INVITE_URL_BASES = Object.freeze([
 	'https://web.fluxer.app/invite',
-	'https://web.fluxer.app/invite',
-	'https://web.fluxer.app/invite',
-	'https://web.fluxer.app/invite',
+	'https://web.canary.fluxer.app/invite',
+	'https://fluxer.com/invite',
+	'https://canary.fluxer.com/invite',
 	'https://fluxer.gg',
 	'https://fluxer.gg/invite',
 ]);

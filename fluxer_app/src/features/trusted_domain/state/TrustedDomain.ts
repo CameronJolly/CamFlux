@@ -6,8 +6,10 @@ import UserSettings from '@app/features/user/state/UserSettings';
 import {makeAutoObservable} from 'mobx';
 
 const BUILT_IN_TRUST_PATTERNS = [
-	'web.fluxer.app',
-	'*.web.fluxer.app',
+	'fluxer.app',
+	'*.fluxer.app',
+	'fluxer.com',
+	'*.fluxer.com',
 	'fluxerstatus.com',
 	'*.fluxerstatus.com',
 	'fluxer.gg',

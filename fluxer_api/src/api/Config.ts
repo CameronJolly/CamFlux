@@ -258,6 +258,7 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 			apiPublic: master.endpoints.api,
 			apiClient: master.endpoints.api_client,
 			webApp: master.endpoints.app,
+			webAppOrigins: [...new Set([new URL(master.endpoints.app).origin, ...master.services.api.app_origin_aliases])],
 			gateway: master.endpoints.gateway,
 			media: master.endpoints.media,
 			marketing: master.endpoints.marketing,
@@ -272,8 +273,6 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 			donationProxyKey,
 		},
 		hosts: {
-			invite: extractHostname(master.endpoints.invite),
-			gift: extractHostname(master.endpoints.gift),
 			marketing: extractHostname(master.endpoints.marketing),
 			unfurlIgnored: master.services.api.unfurl_ignored_hosts,
 		},
@@ -478,6 +477,10 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 		},
 		abusePolicy: {
 			inboundPhoneCountryCodes: master.instance.abuse_policy.inbound_phone_country_codes,
+			phoneFlagging: {
+				enabled: master.instance.abuse_policy.phone_flagging.enabled,
+				exemptCountryCodes: master.instance.abuse_policy.phone_flagging.exempt_country_codes,
+			},
 			phoneVerification: {
 				inboundRequiredPrefixes: master.instance.abuse_policy.phone_verification.inbound_required_prefixes,
 			},

@@ -26,8 +26,9 @@
     <key>com.apple.developer.associated-domains</key>
     <array>
         <string>webcredentials:web.fluxer.app</string>
-        <string>webcredentials:web.fluxer.app</string>
-        <string>webcredentials:web.fluxer.app</string>
+        <string>webcredentials:web.canary.fluxer.app</string>
+        <string>webcredentials:fluxer.com</string>
+        <string>webcredentials:canary.fluxer.com</string>
     </array>
 </dict>
 </plist>

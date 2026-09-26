@@ -129,6 +129,7 @@ export interface APIConfig {
 		apiPublic: string;
 		apiClient: string;
 		webApp: string;
+		webAppOrigins: Array<string>;
 		gateway: string;
 		media: string;
 		staticCdn: string;
@@ -143,8 +144,6 @@ export interface APIConfig {
 		donationProxyKey: string;
 	};
 	hosts: {
-		invite: string;
-		gift: string;
 		marketing: string;
 		unfurlIgnored: Array<string>;
 	};
@@ -338,6 +337,10 @@ export interface APIConfig {
 	};
 	abusePolicy: {
 		inboundPhoneCountryCodes: Array<string>;
+		phoneFlagging: {
+			enabled: boolean;
+			exemptCountryCodes: Array<string>;
+		};
 		phoneVerification: {
 			inboundRequiredPrefixes: Array<string>;
 		};
